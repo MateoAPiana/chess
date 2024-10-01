@@ -12,10 +12,8 @@ export function Board() {
       if (pieceToMove[0] === "") return
       const from: [number, number] = [Number(pieceToMove[0][0]), Number(pieceToMove[0][1])]
       const to: [number, number] = [indexRow, index]
-      if (calcMove(pieceToMove[1], to, from)) {
-        movePiece(from, to)
-        setPieceToMove(["", ""])
-      }
+      if (calcMove(pieceToMove[1], to, from, board)) movePiece(from, to)
+      setPieceToMove(["", ""])
       return
     }
     if (pieceToMove[0] === `${indexRow}${index}`) setPieceToMove(["", ""])
