@@ -1,23 +1,41 @@
 import { useState } from "react"
 import { useGameStore } from "../store/game"
-import type { cell, Piece } from "../../types"
+import type { cell, Piece, PlayerColor } from "../../types"
 import { calcMove } from "../services/calcMove"
 
 export function Board() {
   const board = useGameStore(state => state.board)
-  const [pieceToMove, setPieceToMove] = useState<[string, Piece]>(["", ""])
+  const [pieceToMove, setPieceToMove] = useState<[string, Piece, PlayerColor]>(["", "", ""])
   const movePiece = useGameStore((state) => state.move)
+  const [turn, setTurn] = useState(true)
+
   const handleClick = (indexRow: number, index: number, cell: cell) => {
-    if (cell.piece === "") {
-      if (pieceToMove[0] === "") return
-      const from: [number, number] = [Number(pieceToMove[0][0]), Number(pieceToMove[0][1])]
-      const to: [number, number] = [indexRow, index]
-      if (calcMove(pieceToMove[1], to, from, board)) movePiece(from, to)
-      setPieceToMove(["", ""])
-      return
+    if (turn && (pieceToMove[2] === "white" || cell.color === "white")) {
+      if (cell.piece === "") {
+        if (pieceToMove[0] === "") return
+        const from: [number, number] = [Number(pieceToMove[0][0]), Number(pieceToMove[0][1])]
+        const to: [number, number] = [indexRow, index]
+        if (calcMove(pieceToMove[1], to, from, board)) movePiece(from, to)
+        setPieceToMove(["", "", ""])
+        setTurn(false)
+        return
+      }
+      if (pieceToMove[0] === `${indexRow}${index}`) setPieceToMove(["", "", ""])
+      else setPieceToMove([`${indexRow}${index}`, cell.piece, cell.color])
+      // ! This is temporal
+    } else if (pieceToMove[2] === "black" || cell.color === "black") {
+      if (cell.piece === "") {
+        if (pieceToMove[0] === "") return
+        const from: [number, number] = [Number(pieceToMove[0][0]), Number(pieceToMove[0][1])]
+        const to: [number, number] = [indexRow, index]
+        if (calcMove(pieceToMove[1], to, from, board)) movePiece(from, to)
+        setPieceToMove(["", "", ""])
+        setTurn(true)
+        return
+      }
+      if (pieceToMove[0] === `${indexRow}${index}`) setPieceToMove(["", "", ""])
+      else setPieceToMove([`${indexRow}${index}`, cell.piece, cell.color])
     }
-    if (pieceToMove[0] === `${indexRow}${index}`) setPieceToMove(["", ""])
-    else setPieceToMove([`${indexRow}${index}`, cell.piece])
   }
 
   return (
