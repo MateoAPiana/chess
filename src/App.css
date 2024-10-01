@@ -15,15 +15,6 @@
   grid-template-rows: repeat(8, 1fr);
   background-image: url('../public/board.png');
   background-size: contain;
-      /* }
-      .coordinate-light {
-        fill: #895132;
-      }
-      .coordinate-dark {
-        fill: #d9b088;
-      }
-      .highlight {
-        background-color: #ee9016; */
 }
 
 .row{
