@@ -56,7 +56,7 @@ export function Board() {
                       }}
                       style={{ backgroundColor: pieceToMove[0] === `${indexRow}${index}` ? "#f334" : "transparent" }}
                     >
-                      {c.piece !== "" && <img className="piece" src={`../../public/${c.color}/${c.piece}.png`} alt="piece" />}
+                      {c.piece !== "" && <img className="piece" src={`/${c.color}/${c.piece}.png`} alt="piece" />}
                     </div>
                   )
                 })
