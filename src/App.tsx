@@ -17,6 +17,7 @@ export function sendMoves({
 
 function App() {
   const getEnemyMoves = useGameStore(state => state.getEnemyMoves)
+  const changeColor = useGameStore(state => state.changeColor)
   socket.on(
     "getMove",
     async ({
@@ -27,7 +28,13 @@ function App() {
       to: [number, number]
     }) => {
       getEnemyMoves({ from, to })
-      return { from, to }
+    },
+  )
+
+  socket.on(
+    "paired",
+    async (color: "white" | "black") => {
+      changeColor(color)
     },
   )
   return (

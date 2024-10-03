@@ -7,10 +7,11 @@ export function Board() {
   const board = useGameStore(state => state.board)
   const [pieceToMove, setPieceToMove] = useState<[string, Piece, PlayerColor]>(["", "", ""])
   const movePiece = useGameStore((state) => state.move)
+  const myColor = useGameStore((state) => state.color)
   const [turn, setTurn] = useState(true)
 
   const handleClick = (indexRow: number, index: number, cell: cell) => {
-    if (turn && (pieceToMove[2] === "white" || cell.color === "white")) {
+    if (turn && (pieceToMove[2] === "me" || cell.color === "me")) {
       if (cell.piece === "") {
         if (pieceToMove[0] === "") return
         const from: [number, number] = [Number(pieceToMove[0][0]), Number(pieceToMove[0][1])]
@@ -23,7 +24,7 @@ export function Board() {
       if (pieceToMove[0] === `${indexRow}${index}`) setPieceToMove(["", "", ""])
       else setPieceToMove([`${indexRow}${index}`, cell.piece, cell.color])
       // ! This is temporal
-    } else if (pieceToMove[2] === "black" || cell.color === "black") {
+    } else if (pieceToMove[2] === "her" || cell.color === "her") {
       if (cell.piece === "") {
         if (pieceToMove[0] === "") return
         const from: [number, number] = [Number(pieceToMove[0][0]), Number(pieceToMove[0][1])]
@@ -36,6 +37,14 @@ export function Board() {
       if (pieceToMove[0] === `${indexRow}${index}`) setPieceToMove(["", "", ""])
       else setPieceToMove([`${indexRow}${index}`, cell.piece, cell.color])
     }
+  }
+
+  const getColor = (color: PlayerColor) => {
+    if (color === "her") {
+      if (myColor === "white") return "black"
+      return "white"
+    }
+    return myColor
   }
 
   return (
@@ -56,7 +65,7 @@ export function Board() {
                       }}
                       style={{ backgroundColor: pieceToMove[0] === `${indexRow}${index}` ? "#f334" : "transparent" }}
                     >
-                      {c.piece !== "" && <img className="piece" src={`/${c.color}/${c.piece}.png`} alt="piece" />}
+                      {c.piece !== "" && <img className="piece" src={`/${getColor(c.color)}/${c.piece}.png`} alt="piece" />}
                     </div>
                   )
                 })

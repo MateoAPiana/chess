@@ -1,10 +1,12 @@
 import { create } from "zustand"
 import { devtools, persist } from "zustand/middleware"
-import type { Board } from "../../types.d"
+import type { Board, color } from "../../types.d"
 import { initialBoard } from "../../constants"
 import { sendMoves } from "../App"
 
 interface State {
+	color: color
+	changeColor: (newColor: color) => void
 	getEnemyMoves: ({
 		from,
 		to,
@@ -17,6 +19,12 @@ export const useGameStore = create<State>()(
 	devtools(
 		(set, get) => {
 			return {
+				color: "white",
+				changeColor(newColor) {
+					console.log(newColor)
+
+					set({ color: newColor })
+				},
 				board: initialBoard,
 				getEnemyMoves({ from, to }) {
 					console.log({ from, to })
