@@ -21,9 +21,7 @@ export function Board() {
         const from: [number, number] = [Number(pieceToMove[0][0]), Number(pieceToMove[0][1])]
         const to: [number, number] = [indexRow, index]
         const isValidMove = calcMove(pieceToMove[1], to, from, board, Jake)
-        console.log({ isValidMove })
         if (isValidMove) {
-          // console.log({ from, to })
           movePiece(from, to)
           passTurn("her")
           setPieceToMove(["", "", ""])

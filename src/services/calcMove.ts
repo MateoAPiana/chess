@@ -131,8 +131,6 @@ export function calcMove(
 			return
 		}
 		case "queen":
-			// console.log({ from, to })
-
 			if (from[0] === to[0]) {
 				if (from[1] > to[1]) {
 					for (let i = from[1] - 1; i >= to[1]; i--) {

@@ -78,5 +78,65 @@ export function isInJake(
 		} else if (newBoard[c][kingIndex[1]].color === "me") break
 	}
 
+	if (Jake) return Jake
+
+	let col = kingIndex[1] + 1
+	for (let r = kingIndex[0] + 1; r <= 7 || col <= 7; r++, col++) {
+		console.log(r, col)
+
+		if (newBoard[r] === undefined || newBoard[r][col] === undefined) break
+		const cell = newBoard[r][col]
+		if (cell.color === "her") {
+			if (cell.piece === "bishop" || cell.piece === "queen") {
+				Jake = true
+				break
+			}
+		} else if (cell.color === "me") break
+	}
+
+	if (Jake) return Jake
+
+	col = kingIndex[1] - 1
+
+	for (let r = kingIndex[0] - 1; r < 7 || col < 7; r--, col--) {
+		const cell = newBoard[r][col]
+		if (newBoard[r] === undefined || newBoard[r][col] === undefined) break
+		if (cell.color === "her") {
+			if (cell.piece === "bishop" || cell.piece === "queen") {
+				Jake = true
+				break
+			}
+		} else if (cell.color === "me") break
+	}
+
+	if (Jake) return Jake
+
+	col = kingIndex[1] + 1
+	for (let r = kingIndex[0] - 1; r >= 7 || col <= 7; r--, col++) {
+		if (newBoard[r] === undefined || newBoard[r][col] === undefined) break
+		const cell = newBoard[r][col]
+		if (cell.color === "her") {
+			if (cell.piece === "bishop" || cell.piece === "queen") {
+				Jake = true
+				break
+			}
+		} else if (cell.color === "me") break
+	}
+
+	if (Jake) return Jake
+
+	col = kingIndex[1] - 1
+
+	for (let r = kingIndex[0] + 1; r <= 7 || col >= 7; r++, col--) {
+		if (newBoard[r] === undefined || newBoard[r][col] === undefined) break
+		const cell = newBoard[r][col]
+		if (cell.color === "her") {
+			if (cell.piece === "bishop" || cell.piece === "queen") {
+				Jake = true
+				break
+			}
+		} else if (cell.color === "me") break
+	}
+
 	return Jake
 }
