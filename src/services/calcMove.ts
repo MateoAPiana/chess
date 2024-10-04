@@ -1,11 +1,26 @@
 import type { Board, Piece } from "../../types"
+import { isInJake } from "./isInJake"
 
 export function calcMove(
 	piece: Piece,
 	to: [number, number],
 	from: [number, number],
 	board: Board,
+	isJake: number,
 ) {
+	if (isJake !== 0) {
+		const isValid = calcMove(piece, to, from, board, 0)
+		console.log({ isValid })
+
+		if (isValid) {
+			const isInJakeAgain = isInJake(board, from, to)
+			console.log({ isInJakeAgain })
+			if (isInJakeAgain) return false
+			return true
+		}
+		return false
+	}
+
 	switch (piece) {
 		case "king":
 			if (from[0] === to[0]) {
@@ -23,7 +38,7 @@ export function calcMove(
 			}
 			return
 		case "pawn":
-			if (from[0] === 6 && from[1] === to[1]) return true
+			if (from[0] === 6 && to[0] === 4 && from[1] === to[1]) return true
 			if (from[0] - 1 === to[0] && from[1] === to[1]) {
 				return true
 			}
@@ -116,6 +131,8 @@ export function calcMove(
 			return
 		}
 		case "queen":
+			// console.log({ from, to })
+
 			if (from[0] === to[0]) {
 				if (from[1] > to[1]) {
 					for (let i = from[1] - 1; i >= to[1]; i--) {

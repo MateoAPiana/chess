@@ -5,7 +5,9 @@ import { initialBoard } from "../../constants"
 import { sendMoves } from "../components/game"
 
 interface State {
+	Jake: number
 	turn: PlayerColor
+	setJake: (newJake: number) => void
 	setTurn: (newTurn: PlayerColor) => void
 	color: color
 	changeColor: (newColor: color) => void
@@ -22,6 +24,10 @@ export const useGameStore = create<State>()(
 	devtools(
 		(set, get) => {
 			return {
+				Jake: 0,
+				setJake(newJake) {
+					set({ Jake: newJake })
+				},
 				turn: "",
 				setTurn(newTurn) {
 					set({ turn: newTurn })
@@ -43,8 +49,10 @@ export const useGameStore = create<State>()(
 						board[6],
 						board[7],
 					]
-					newBoard[to[0]][to[1]] = board[from[0]][from[1]]
-					newBoard[from[0]][from[1]] = { piece: "", color: "" }
+					if (board[to[0]][to[1]].piece === "") {
+						newBoard[to[0]][to[1]] = board[from[0]][from[1]]
+						newBoard[from[0]][from[1]] = { piece: "", color: "" }
+					}
 					set({ board: newBoard })
 				},
 				fixBoardToBlack() {

@@ -10,6 +10,7 @@ export function Board() {
   const myColor = useGameStore((state) => state.color)
   const fixBoardToBlack = useGameStore((state) => state.fixBoardToBlack)
   const turn = useGameStore((state) => state.turn)
+  const Jake = useGameStore(state => state.Jake)
   const passTurn = useGameStore((state) => state.setTurn)
 
   const handleClick = (indexRow: number, index: number, cell: cell) => {
@@ -19,14 +20,15 @@ export function Board() {
         if (pieceToMove[0] === "") return
         const from: [number, number] = [Number(pieceToMove[0][0]), Number(pieceToMove[0][1])]
         const to: [number, number] = [indexRow, index]
-        if (calcMove(pieceToMove[1], to, from, board)) {
+        const isValidMove = calcMove(pieceToMove[1], to, from, board, Jake)
+        console.log({ isValidMove })
+        if (isValidMove) {
+          // console.log({ from, to })
           movePiece(from, to)
           passTurn("her")
+          setPieceToMove(["", "", ""])
         }
-        setPieceToMove(["", "", ""])
-        return
-      }
-      if (pieceToMove[0] === `${indexRow}${index}`) setPieceToMove(["", "", ""])
+      } else if (pieceToMove[0] === `${indexRow}${index}`) setPieceToMove(["", "", ""])
       else setPieceToMove([`${indexRow}${index}`, cell.piece, cell.color])
     }
   }
