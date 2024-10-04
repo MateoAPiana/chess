@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useGameStore } from "../store/game"
 import type { cell, Piece, PlayerColor } from "../../types"
 import { calcMove } from "../services/calcMove"
@@ -8,6 +8,7 @@ export function Board() {
   const [pieceToMove, setPieceToMove] = useState<[string, Piece, PlayerColor]>(["", "", ""])
   const movePiece = useGameStore((state) => state.move)
   const myColor = useGameStore((state) => state.color)
+  const fixBoardToBlack = useGameStore((state) => state.fixBoardToBlack)
   const [turn, setTurn] = useState(true)
 
   const handleClick = (indexRow: number, index: number, cell: cell) => {
@@ -38,6 +39,14 @@ export function Board() {
       else setPieceToMove([`${indexRow}${index}`, cell.piece, cell.color])
     }
   }
+
+  useEffect(() => {
+    console.log(myColor);
+
+    if (myColor === "black") {
+      fixBoardToBlack()
+    }
+  }, [myColor, fixBoardToBlack])
 
   const getColor = (color: PlayerColor) => {
     if (color === "her") {
