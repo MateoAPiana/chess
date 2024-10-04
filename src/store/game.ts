@@ -6,6 +6,7 @@ import { sendMoves } from "../components/game"
 
 interface State {
 	turn: PlayerColor
+	setTurn: (newTurn: PlayerColor) => void
 	color: color
 	changeColor: (newColor: color) => void
 	getEnemyMoves: ({
@@ -22,6 +23,9 @@ export const useGameStore = create<State>()(
 		(set, get) => {
 			return {
 				turn: "",
+				setTurn(newTurn) {
+					set({ turn: newTurn })
+				},
 				color: "white",
 				changeColor(newColor) {
 					set({ color: newColor })

@@ -16,6 +16,7 @@ export function sendMoves({
 export function Game() {
   const getEnemyMoves = useGameStore(state => state.getEnemyMoves)
   const changeColor = useGameStore(state => state.changeColor)
+  const setTurn = useGameStore(state => state.setTurn)
 
   socket.on(
     "getMove",
@@ -27,6 +28,7 @@ export function Game() {
       to: [number, number]
     }) => {
       getEnemyMoves({ from, to })
+      setTurn("me")
     },
   )
 
@@ -34,6 +36,7 @@ export function Game() {
     "paired",
     async (color: "white" | "black") => {
       changeColor(color)
+      setTurn(color === "white" ? "me" : "her")
     },
   )
 

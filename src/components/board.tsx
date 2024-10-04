@@ -9,30 +9,19 @@ export function Board() {
   const movePiece = useGameStore((state) => state.move)
   const myColor = useGameStore((state) => state.color)
   const fixBoardToBlack = useGameStore((state) => state.fixBoardToBlack)
-  const [turn, setTurn] = useState(true)
+  const turn = useGameStore((state) => state.turn)
+  const passTurn = useGameStore((state) => state.setTurn)
 
   const handleClick = (indexRow: number, index: number, cell: cell) => {
-    if (turn && (pieceToMove[2] === "me" || cell.color === "me")) {
+    if (pieceToMove[2] === "her" && cell.piece === "") return setPieceToMove(["", "", ""])
+    if (turn === "me" && (pieceToMove[2] === "me" || cell.color === "me")) {
       if (cell.piece === "") {
         if (pieceToMove[0] === "") return
         const from: [number, number] = [Number(pieceToMove[0][0]), Number(pieceToMove[0][1])]
         const to: [number, number] = [indexRow, index]
         if (calcMove(pieceToMove[1], to, from, board)) movePiece(from, to)
         setPieceToMove(["", "", ""])
-        setTurn(false)
-        return
-      }
-      if (pieceToMove[0] === `${indexRow}${index}`) setPieceToMove(["", "", ""])
-      else setPieceToMove([`${indexRow}${index}`, cell.piece, cell.color])
-      // ! This is temporal
-    } else if (pieceToMove[2] === "her" || cell.color === "her") {
-      if (cell.piece === "") {
-        if (pieceToMove[0] === "") return
-        const from: [number, number] = [Number(pieceToMove[0][0]), Number(pieceToMove[0][1])]
-        const to: [number, number] = [indexRow, index]
-        if (calcMove(pieceToMove[1], to, from, board)) movePiece(from, to)
-        setPieceToMove(["", "", ""])
-        setTurn(true)
+        passTurn("her")
         return
       }
       if (pieceToMove[0] === `${indexRow}${index}`) setPieceToMove(["", "", ""])
