@@ -23,6 +23,7 @@ export function calcMove(
 			}
 			return
 		case "pawn":
+			if (from[0] === 6 && from[1] === to[1]) return true
 			if (from[0] - 1 === to[0] && from[1] === to[1]) {
 				return true
 			}

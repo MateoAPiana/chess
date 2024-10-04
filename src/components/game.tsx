@@ -1,7 +1,7 @@
 import { Board } from "./board";
 import { io } from "socket.io-client"
 import { useGameStore } from '../store/game'
-const socket = io("http://localhost:3000")
+const socket = io("http://localhost:1234")
 
 export function sendMoves({
   from,
