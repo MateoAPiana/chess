@@ -41,8 +41,6 @@ export function Board() {
   }
 
   useEffect(() => {
-    console.log(myColor);
-
     if (myColor === "black") {
       fixBoardToBlack()
     }
