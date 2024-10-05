@@ -10,8 +10,6 @@ export function calcMove(
 ) {
 	if (isJake !== 0) {
 		const isValid = calcMove(piece, to, from, board, 0)
-		console.log({ isValid })
-
 		if (isValid) {
 			const isInJakeAgain = isInJake(board, from, to)
 			console.log({ isInJakeAgain })
@@ -20,6 +18,8 @@ export function calcMove(
 		}
 		return false
 	}
+
+	if (isInJake(board, from, to)) return false
 
 	switch (piece) {
 		case "king":
