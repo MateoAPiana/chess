@@ -26,7 +26,17 @@ export const useGameStore = create<State>()(
 			return {
 				Jake: 0,
 				setJake(newJake) {
-					set({ Jake: newJake })
+					console.log(newJake)
+
+					if (newJake === 2) {
+						const initialTurn: PlayerColor = ""
+						set({
+							board: initialBoard,
+							color: "white",
+							turn: initialTurn,
+							Jake: 0,
+						})
+					} else set({ Jake: newJake })
 				},
 				turn: "",
 				setTurn(newTurn) {

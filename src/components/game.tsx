@@ -2,6 +2,7 @@ import { Board } from "./board";
 import { io } from "socket.io-client"
 import { useGameStore } from '../store/game'
 import { isInJake } from "../services/isInJake";
+import { isMate } from "../services/isMate";
 const socket = io("http://localhost:1234")
 
 export function sendMoves({
@@ -31,8 +32,14 @@ export function Game() {
       to: [number, number]
     }) => {
       getEnemyMoves({ from, to })
-      if (isInJake(board, from, to)) setJake(1)
-      setTurn("me")
+      if (isInJake(board, from, to)) {
+        if (isMate(board, from, to)) setJake(2)
+        else {
+          setJake(1)
+          setTurn("me")
+        }
+      }
+      else setTurn("me")
     },
   )
 
