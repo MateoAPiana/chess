@@ -24,9 +24,10 @@ export function isInJake(
 		.filter((i) => i !== undefined)
 		.flat()
 
-	// ----------------- Move of the King -----------------
+	// ----------------- Jake of the Rook or Queen -----------------
 
 	for (let c = kingIndex[1] - 1; c >= 0; c--) {
+		if (newBoard[kingIndex[0]][c].color === "me") break
 		if (newBoard[kingIndex[0]][c].color === "her") {
 			if (
 				newBoard[kingIndex[0]][c].piece === "rook" ||
@@ -34,10 +35,12 @@ export function isInJake(
 			) {
 				return true
 			}
-		} else if (newBoard[kingIndex[0]][c].color === "me") break
+			break
+		}
 	}
 
 	for (let c = kingIndex[1] + 1; c <= 7; c++) {
+		if (newBoard[kingIndex[0]][c].color === "me") break
 		if (newBoard[kingIndex[0]][c].color === "her") {
 			if (
 				newBoard[kingIndex[0]][c].piece === "rook" ||
@@ -45,10 +48,15 @@ export function isInJake(
 			) {
 				return true
 			}
-		} else if (newBoard[kingIndex[0]][c].color === "me") break
+			break
+		}
 	}
 
+
 	for (let c = kingIndex[0] - 1; c >= 0; c--) {
+
+		if (newBoard[c][kingIndex[1]].color === "me") break
+
 		if (newBoard[c][kingIndex[1]].color === "her") {
 			if (
 				newBoard[c][kingIndex[1]].piece === "rook" ||
@@ -56,12 +64,12 @@ export function isInJake(
 			) {
 				return true
 			}
-		} else if (newBoard[c][kingIndex[1]].color === "me") {
 			break
 		}
 	}
 
 	for (let c = kingIndex[0] + 1; c <= 0; c++) {
+		if (newBoard[c][kingIndex[1]].color === "me") break
 		if (newBoard[c][kingIndex[1]].color === "her") {
 			if (
 				newBoard[c][kingIndex[1]].piece === "rook" ||
@@ -69,20 +77,23 @@ export function isInJake(
 			) {
 				return true
 			}
-		} else if (newBoard[c][kingIndex[1]].color === "me") break
+			break
+		}
 	}
 
-	// ----------------- Move of the Bishop -----------------
+	// ----------------- Jake of the Bishop or Queen -----------------
 
 	let col = kingIndex[1] + 1
 	for (let r = kingIndex[0] + 1; r <= 7 || col <= 7; r++, col++) {
 		if (newBoard[r] === undefined || newBoard[r][col] === undefined) break
 		const cell = newBoard[r][col]
+		if (cell.color === "me") break
 		if (cell.color === "her") {
 			if (cell.piece === "bishop" || cell.piece === "queen") {
 				return true
 			}
-		} else if (cell.color === "me") break
+			break
+		}
 	}
 
 	col = kingIndex[1] - 1
@@ -90,22 +101,26 @@ export function isInJake(
 	for (let r = kingIndex[0] - 1; r < 7 || col < 7; r--, col--) {
 		if (newBoard[r] === undefined || newBoard[r][col] === undefined) break
 		const cell = newBoard[r][col]
+		if (cell.color === "me") break
 		if (cell.color === "her") {
 			if (cell.piece === "bishop" || cell.piece === "queen") {
 				return true
 			}
-		} else if (cell.color === "me") break
+			break
+		}
 	}
 
 	col = kingIndex[1] + 1
 	for (let r = kingIndex[0] - 1; r >= 7 || col <= 7; r--, col++) {
 		if (newBoard[r] === undefined || newBoard[r][col] === undefined) break
 		const cell = newBoard[r][col]
+		if (cell.color === "me") break
 		if (cell.color === "her") {
 			if (cell.piece === "bishop" || cell.piece === "queen") {
 				return true
 			}
-		} else if (cell.color === "me") break
+			break
+		}
 	}
 
 	col = kingIndex[1] - 1
@@ -113,14 +128,16 @@ export function isInJake(
 	for (let r = kingIndex[0] + 1; r <= 7 || col >= 7; r++, col--) {
 		if (newBoard[r] === undefined || newBoard[r][col] === undefined) break
 		const cell = newBoard[r][col]
+		if (cell.color === "me") break
 		if (cell.color === "her") {
 			if (cell.piece === "bishop" || cell.piece === "queen") {
 				return true
 			}
-		} else if (cell.color === "me") break
+			break
+		}
 	}
 
-	// ----------------- Move of the Knight -----------------
+	// ----------------- Jake of the Knight -----------------
 
 	try {
 		if (
@@ -146,15 +163,27 @@ export function isInJake(
 			(newBoard[kingIndex[0] + 2][kingIndex[1] + 1].piece === "knight" && newBoard[kingIndex[0] + 2][kingIndex[1] + 1].color === "her")
 		)
 			return true
-	} catch (error) {
-
-	}
+	} catch (error) { }
 	try {
 		if (
 			(newBoard[kingIndex[0] - 2][kingIndex[1] - 1].piece === "knight" && newBoard[kingIndex[0] - 2][kingIndex[1] - 1].color === "her") ||
 			(newBoard[kingIndex[0] - 2][kingIndex[1] + 1].piece === "knight" && newBoard[kingIndex[0] - 2][kingIndex[1] + 1].color === "her")
 		)
 			return true
+	} catch (error) {
+
+	}
+
+	// ----------------- Jake of the Pawn -----------------
+
+	try {
+		if ((newBoard[kingIndex[0] - 1][kingIndex[1] - 1].piece === "pawn" &&
+			newBoard[kingIndex[0] - 1][kingIndex[1] - 1].color === "her") ||
+			(newBoard[kingIndex[0] - 1][kingIndex[1] + 1].piece === "pawn" &&
+				newBoard[kingIndex[0] - 1][kingIndex[1] + 1].color === "her")
+		) {
+			return true
+		}
 	} catch (error) {
 
 	}
