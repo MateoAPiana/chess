@@ -71,29 +71,27 @@ export function calcMove(
 					if (from[1] < to[1]) {
 						let j = from[1] + 1
 						for (let i = from[0] + 1; i <= to[0] && j <= to[1]; i++) {
-							if (board[i][j].piece !== "") return false
+							if (board[i][j].color === "me") return false
 							j++
 						}
 					} else {
 						let j = from[1] - 1
 						for (let i = from[0] + 1; i <= to[0] && j >= to[1]; i++) {
-							if (board[i][j].piece !== "") return false
+							if (board[i][j].color === "me") return false
 							j--
 						}
 					}
+				} else if (from[1] < to[1]) {
+					let j = from[1] + 1
+					for (let i = from[0] - 1; i >= to[0] && j <= to[1]; i--) {
+						if (board[i][j].color === "me") return false
+						j++
+					}
 				} else {
-					if (from[1] < to[1]) {
-						let j = from[1] + 1
-						for (let i = from[0] - 1; i >= to[0] && j <= to[1]; i--) {
-							if (board[i][j].piece !== "") return false
-							j++
-						}
-					} else {
-						let j = from[1] - 1
-						for (let i = from[0] - 1; i >= to[0] && j >= to[1]; i--) {
-							if (board[i][j].piece !== "") return false
-							j--
-						}
+					let j = from[1] - 1
+					for (let i = from[0] - 1; i >= to[0] && j >= to[1]; i--) {
+						if (board[i][j].color === "me") return false
+						j--
 					}
 				}
 				if (

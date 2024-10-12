@@ -1,6 +1,5 @@
 import type { Board } from "../../types"
 import { calcMove } from "./calcMove"
-import { isInJake } from "./isInJake"
 
 export function isMate(
 	board: Board,

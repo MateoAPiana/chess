@@ -15,8 +15,8 @@ export function Board() {
 
   const handleClick = (indexRow: number, index: number, cell: cell) => {
     if (pieceToMove[2] === "her" && cell.piece === "") return setPieceToMove(["", "", ""])
-    if (turn === "me" && (pieceToMove[2] === "me" || cell.color === "me")) {
-      if (cell.piece === "") {
+    if (turn === "me" && (pieceToMove[2] === "me" || cell.color === "me" || cell.color === "her")) {
+      if (cell.piece === "" || (cell.color === "her" && pieceToMove[2] === "me")) {
         if (pieceToMove[0] === "") return
         const from: [number, number] = [Number(pieceToMove[0][0]), Number(pieceToMove[0][1])]
         const to: [number, number] = [indexRow, index]

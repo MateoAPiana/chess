@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { devtools, persist } from "zustand/middleware"
+import { devtools } from "zustand/middleware"
 import type { Board, color, PlayerColor } from "../../types.d"
 import { initialBoard } from "../../constants"
 import { sendMoves } from "../components/game"
@@ -59,7 +59,7 @@ export const useGameStore = create<State>()(
 						board[6],
 						board[7],
 					]
-					if (board[to[0]][to[1]].piece === "") {
+					if (board[from[0]][from[1]].piece !== "") {
 						newBoard[to[0]][to[1]] = board[from[0]][from[1]]
 						newBoard[from[0]][from[1]] = { piece: "", color: "" }
 					}
