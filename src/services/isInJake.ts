@@ -145,18 +145,14 @@ export function isInJake(
 			(newBoard[kingIndex[0] - 1][kingIndex[1] + 2].piece === "knight" && newBoard[kingIndex[0] - 1][kingIndex[1] + 2].color === "her")
 		)
 			return true
-	} catch (error) {
-
-	}
+	} catch (error) { }
 	try {
 		if (
 			(newBoard[kingIndex[0] + 1][kingIndex[1] - 2].piece === "knight" && newBoard[kingIndex[0] + 1][kingIndex[1] - 2].color === "her") ||
 			(newBoard[kingIndex[0] + 1][kingIndex[1] + 2].piece === "knight" && newBoard[kingIndex[0] + 1][kingIndex[1] + 2].color === "her")
 		)
 			return true
-	} catch (error) {
-
-	}
+	} catch (error) { }
 	try {
 		if (
 			(newBoard[kingIndex[0] + 2][kingIndex[1] - 1].piece === "knight" && newBoard[kingIndex[0] + 2][kingIndex[1] - 1].color === "her") ||
@@ -170,9 +166,7 @@ export function isInJake(
 			(newBoard[kingIndex[0] - 2][kingIndex[1] + 1].piece === "knight" && newBoard[kingIndex[0] - 2][kingIndex[1] + 1].color === "her")
 		)
 			return true
-	} catch (error) {
-
-	}
+	} catch (error) { }
 
 	// ----------------- Jake of the Pawn -----------------
 
@@ -184,9 +178,21 @@ export function isInJake(
 		) {
 			return true
 		}
-	} catch (error) {
+	} catch (error) { }
 
-	}
+	// ----------------- Jake of the King ----------------
+
+	try {
+		if (newBoard[kingIndex[0]][kingIndex[1] - 1].piece === "king" ||
+			newBoard[kingIndex[0]][kingIndex[1] + 1].piece === "king" ||
+			newBoard[kingIndex[0] - 1][kingIndex[1] - 1].piece === "king" ||
+			newBoard[kingIndex[0] - 1][kingIndex[1]].piece === "king" ||
+			newBoard[kingIndex[0] - 1][kingIndex[1] + 1].piece === "king" ||
+			newBoard[kingIndex[0] + 1][kingIndex[1] - 1].piece === "king" ||
+			newBoard[kingIndex[0] + 1][kingIndex[1]].piece === "king" ||
+			newBoard[kingIndex[0] + 1][kingIndex[1] + 1].piece === "king"
+		) return true
+	} catch (error) { }
 
 	return false
 }
