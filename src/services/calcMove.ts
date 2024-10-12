@@ -101,21 +101,21 @@ export function calcMove(
 			if (from[0] === to[0]) {
 				if (from[1] > to[1]) {
 					for (let i = from[1] - 1; i >= to[1]; i--) {
-						if (board[from[0]][i].piece !== "") return false
+						if (board[from[0]][i].color === "me") return false
 					}
 				} else {
 					for (let i = from[1] + 1; i <= to[1]; i++) {
-						if (board[from[0]][i].piece !== "") return false
+						if (board[from[0]][i].color === "me") return false
 					}
 				}
 			} else {
 				if (from[0] > to[0]) {
 					for (let i = from[0] - 1; i >= to[0]; i--) {
-						if (board[i][from[1]].piece !== "") return false
+						if (board[i][from[1]].color === "me") return false
 					}
 				} else {
 					for (let i = from[0] + 1; i <= to[0]; i++) {
-						if (board[i][from[1]].piece !== "") return false
+						if (board[i][from[1]].color === "me") return false
 					}
 				}
 			}
@@ -126,24 +126,24 @@ export function calcMove(
 			if (from[0] === to[0]) {
 				if (from[1] > to[1]) {
 					for (let i = from[1] - 1; i >= to[1]; i--) {
-						if (board[from[0]][i].piece !== "") return false
+						if (board[from[0]][i].color === "me") return false
 					}
 				} else {
 					for (let i = from[1] + 1; i <= to[1]; i++) {
-						if (board[from[0]][i].piece !== "") return false
+						if (board[from[0]][i].color === "me") return false
 					}
 				}
 			} else if (from[0] < to[0] && from[1] !== to[1]) {
 				if (from[1] < to[1]) {
 					let j = from[1] + 1
 					for (let i = from[0] + 1; i <= to[0] && j <= to[1]; i++) {
-						if (board[i][j].piece !== "") return false
+						if (board[i][j].color === "me") return false
 						j++
 					}
 				} else {
 					let j = from[1] - 1
 					for (let i = from[0] + 1; i <= to[0] && j >= to[1]; i++) {
-						if (board[i][j].piece !== "") return false
+						if (board[i][j].color === "me") return false
 						j--
 					}
 				}
@@ -151,24 +151,24 @@ export function calcMove(
 				if (from[1] < to[1]) {
 					let j = from[1] + 1
 					for (let i = from[0] - 1; i >= to[0] && j <= to[1]; i--) {
-						if (board[i][j].piece !== "") return false
+						if (board[i][j].color === "me") return false
 						j++
 					}
 				} else {
 					let j = from[1] - 1
 					for (let i = from[0] - 1; i >= to[0] && j >= to[1]; i--) {
-						if (board[i][j].piece !== "") return false
+						if (board[i][j].color === "me") return false
 						j--
 					}
 				}
 			} else {
 				if (from[0] > to[0]) {
 					for (let i = from[0] - 1; i >= to[0]; i--) {
-						if (board[i][from[1]].piece !== "") return false
+						if (board[i][from[1]].color === "me") return false
 					}
 				} else {
 					for (let i = from[0] + 1; i <= to[0]; i++) {
-						if (board[i][from[1]].piece !== "") return false
+						if (board[i][from[1]].color === "me") return false
 					}
 				}
 			}
