@@ -21,64 +21,124 @@ export function isMate(
 		.filter((i) => i !== undefined)
 		.flat()
 
+	console.log({
+		calcMoves: calcMove(
+			"king",
+			[kingIndex[0], kingIndex[1] - 1],
+			[kingIndex[0], kingIndex[1]],
+			newBoard,
+			1,
+		) ||
+			calcMove(
+				"king",
+				[kingIndex[0], kingIndex[1] + 1],
+				[kingIndex[0], kingIndex[1]],
+				newBoard,
+				1,
+			) ||
+			calcMove(
+				"king",
+				[kingIndex[0] - 1, kingIndex[1]],
+				[kingIndex[0], kingIndex[1]],
+				newBoard,
+				1,
+			) ||
+			calcMove(
+				"king",
+				[kingIndex[0] + 1, kingIndex[1]],
+				[kingIndex[0], kingIndex[1]],
+				newBoard,
+				1,
+			) ||
+			calcMove(
+				"king",
+				[kingIndex[0] - 1, kingIndex[1] - 1],
+				[kingIndex[0], kingIndex[1]],
+				newBoard,
+				1,
+			) ||
+			calcMove(
+				"king",
+				[kingIndex[0] + 1, kingIndex[1] + 1],
+				[kingIndex[0], kingIndex[1]],
+				newBoard,
+				1,
+			) ||
+			calcMove(
+				"king",
+				[kingIndex[0] - 1, kingIndex[1] + 1],
+				[kingIndex[0], kingIndex[1]],
+				newBoard,
+				1,
+			) ||
+			calcMove(
+				"king",
+				[kingIndex[0] + 1, kingIndex[1] - 1],
+				[kingIndex[0], kingIndex[1]],
+				newBoard,
+				1,
+			)
+	});
+
+
 	if (
 		calcMove(
 			"king",
-			[kingIndex[0], kingIndex[1]],
 			[kingIndex[0], kingIndex[1] - 1],
+			[kingIndex[0], kingIndex[1]],
 			newBoard,
 			1,
-		) &&
+		) ||
 		calcMove(
 			"king",
-			[kingIndex[0], kingIndex[1]],
 			[kingIndex[0], kingIndex[1] + 1],
+			[kingIndex[0], kingIndex[1]],
 			newBoard,
 			1,
-		) &&
+		) ||
 		calcMove(
 			"king",
-			[kingIndex[0], kingIndex[1]],
 			[kingIndex[0] - 1, kingIndex[1]],
+			[kingIndex[0], kingIndex[1]],
 			newBoard,
 			1,
-		) &&
+		) ||
 		calcMove(
 			"king",
-			[kingIndex[0], kingIndex[1]],
 			[kingIndex[0] + 1, kingIndex[1]],
+			[kingIndex[0], kingIndex[1]],
 			newBoard,
 			1,
-		) &&
+		) ||
 		calcMove(
 			"king",
-			[kingIndex[0], kingIndex[1]],
 			[kingIndex[0] - 1, kingIndex[1] - 1],
+			[kingIndex[0], kingIndex[1]],
 			newBoard,
 			1,
-		) &&
+		) ||
 		calcMove(
 			"king",
-			[kingIndex[0], kingIndex[1]],
 			[kingIndex[0] + 1, kingIndex[1] + 1],
+			[kingIndex[0], kingIndex[1]],
 			newBoard,
 			1,
-		) &&
+		) ||
 		calcMove(
 			"king",
-			[kingIndex[0], kingIndex[1]],
 			[kingIndex[0] - 1, kingIndex[1] + 1],
+			[kingIndex[0], kingIndex[1]],
 			newBoard,
 			1,
-		) &&
+		) ||
 		calcMove(
 			"king",
-			[kingIndex[0], kingIndex[1]],
 			[kingIndex[0] + 1, kingIndex[1] - 1],
+			[kingIndex[0], kingIndex[1]],
 			newBoard,
 			1,
 		)
 	)
-		return true
-	return false
+		return false
+	return true
 }

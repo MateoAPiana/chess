@@ -13,8 +13,7 @@ export function calcMove(
 		if (isValid) {
 			const isInJakeAgain = isInJake(board, from, to)
 			console.log({ isInJakeAgain })
-			if (isInJakeAgain) return false
-			return true
+			return !isInJakeAgain
 		}
 		return false
 	}
@@ -23,14 +22,19 @@ export function calcMove(
 
 	switch (piece) {
 		case "king":
-			if (from[0] === to[0]) {
-				if (from[1] - 1 === to[1] || from[1] + 1 === to[1]) return true
-			} else if (from[0] - 1 === to[0] || from[0] + 1 === to[0]) {
-				if (
-					from[1] - 1 === to[1] ||
-					from[1] + 1 === to[1] ||
-					from[1] === to[1]
-				) return true
+			try {
+				if (!board[to[0]][to[1]].piece) return false
+				if (from[0] === to[0]) {
+					if (from[1] - 1 === to[1] || from[1] + 1 === to[1]) return true
+				} else if (from[0] - 1 === to[0] || from[0] + 1 === to[0]) {
+					if (
+						from[1] - 1 === to[1] ||
+						from[1] + 1 === to[1] ||
+						from[1] === to[1]
+					) return true
+				}
+			} catch (error) {
+
 			}
 			return
 		case "pawn":
