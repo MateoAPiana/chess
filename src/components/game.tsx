@@ -31,15 +31,15 @@ export function Game() {
       from: [number, number]
       to: [number, number]
     }) => {
-      getEnemyMoves({ from, to })
       if (isInJake(board, from, to)) {
-        if (isMate(board, from, to)) setJake(2)
+        if (isMate(board)) setJake(2)
         else {
           setJake(1)
           setTurn("me")
         }
       }
       else setTurn("me")
+      getEnemyMoves({ from, to })
     },
   )
 

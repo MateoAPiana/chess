@@ -8,22 +8,36 @@ export function calcMove(
 	board: Board,
 	isJake: number,
 ) {
+	const newBoard: Board = structuredClone(board)
+	try {
+		newBoard[to[0]][to[1]] = board[from[0]][from[1]]
+		newBoard[from[0]][from[1]] = { piece: "", color: "" }
+	} catch (error) {
+		return false
+	}
+
 	if (isJake !== 0) {
 		const isValid = calcMove(piece, to, from, board, 0)
 		if (isValid) {
+			console.log(newBoard)
 			const isInJakeAgain = isInJake(board, from, to)
-			console.log({ isInJakeAgain })
+			console.log({ isInJakeAgain, cell: [from, to] })
 			return !isInJakeAgain
 		}
 		return false
 	}
 
-	if (isInJake(board, from, to)) return false
+	if (isInJake(newBoard, from, to)) return false
+
+	try {
+		if (board[to[0]][to[1]].color === "me") return false
+	} catch (error) { }
+
 
 	switch (piece) {
 		case "king":
 			try {
-				if (!board[to[0]][to[1]].piece) return false
+				if (board[to[0]][to[1]].piece === undefined) return false
 				if (from[0] === to[0]) {
 					if (from[1] - 1 === to[1] || from[1] + 1 === to[1]) return true
 				} else if (from[0] - 1 === to[0] || from[0] + 1 === to[0]) {
@@ -33,9 +47,7 @@ export function calcMove(
 						from[1] === to[1]
 					) return true
 				}
-			} catch (error) {
-
-			}
+			} catch (error) { }
 			return
 		case "pawn":
 			if (from[0] === 6 && to[0] === 4 && from[1] === to[1]) return true

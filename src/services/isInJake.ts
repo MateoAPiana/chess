@@ -24,6 +24,8 @@ export function isInJake(
 		.filter((i) => i !== undefined)
 		.flat()
 
+	console.log(newBoard)
+
 	// ----------------- Jake of the Rook or Queen -----------------
 
 	for (let c = kingIndex[1] - 1; c >= 0; c--) {
