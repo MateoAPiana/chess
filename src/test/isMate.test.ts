@@ -1,4 +1,4 @@
-import type { Board } from "../../types.d"
+import type { Board, cell } from "../../types.d"
 import { isMate } from '../services/isMate'
 import { expect, it } from "vitest"
 
@@ -277,7 +277,11 @@ it('should by not mate', () => {
       }
     ]
   ]
-  expect(isMate(boardTest)).toBeFalsy()
+  const cell: cell = {
+    piece: "queen",
+    color: "her"
+  }
+  expect(isMate(boardTest, cell)).toBeFalsy()
 })
 
 it('should by mate', () => {
@@ -555,7 +559,9 @@ it('should by mate', () => {
       }
     ]
   ]
-  const from: [number, number] = [2, 2]
-  const to: [number, number] = [6, 2]
-  expect(isMate(boardTest)).toBeTruthy()
+  const cell: cell = {
+    piece: "queen",
+    color: "her"
+  }
+  expect(isMate(boardTest, cell)).toBeTruthy()
 })

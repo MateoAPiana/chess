@@ -19,15 +19,13 @@ export function calcMove(
 	if (isJake !== 0) {
 		const isValid = calcMove(piece, to, from, board, 0)
 		if (isValid) {
-			console.log(newBoard)
-			const isInJakeAgain = isInJake(board, from, to)
-			console.log({ isInJakeAgain, cell: [from, to] })
+			const isInJakeAgain = isInJake(board, from, to)[0]
 			return !isInJakeAgain
 		}
 		return false
 	}
 
-	if (isInJake(newBoard, from, to)) return false
+	if (isInJake(newBoard, from, to)[0]) return false
 
 	try {
 		if (board[to[0]][to[1]].color === "me") return false

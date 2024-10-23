@@ -1,83 +1,98 @@
-import type { Board } from "../../types"
+import type { Board, cell, PlayerColor } from "../../types"
 
 export function isInJake(
 	board: Board,
-	from: [number, number],
-	to: [number, number],
-) {
+	from?: [number, number],
+	to?: [number, number],
+	cell?: cell
+): [boolean, cell] {
+
 	const newBoard: Board = structuredClone(board)
 
-	try {
-		if (board[to[0]][to[1]].piece === "") {
-			newBoard[to[0]][to[1]] = board[from[0]][from[1]]
-			newBoard[from[0]][from[1]] = { piece: "", color: "" }
+	if (from !== undefined && to !== undefined) {
+		try {
+			if (board[to[0]][to[1]].piece === "") {
+				newBoard[to[0]][to[1]] = board[from[0]][from[1]]
+				newBoard[from[0]][from[1]] = { piece: "", color: "" }
+			}
+		} catch (error) {
+			return [false, { piece: "", color: "" } as cell]
 		}
-	} catch (error) {
-		return false
 	}
 
-	const kingIndex = newBoard
-		.map((r, index) => {
-			const king = r.findIndex((c) => c.piece === "king" && c.color === "me")
-			if (king !== -1) return [index, king]
-		})
-		.filter((i) => i !== undefined)
-		.flat()
+	const myColor: PlayerColor = cell ? cell.color : "me"
 
-	console.log(newBoard)
+	const pieceIndex = cell
+		? newBoard
+			.map((r, index) => {
+				const piece = r.findIndex((c) => c === cell)
+				if (piece !== -1) return [index, piece]
+			})
+			.filter((i) => i !== undefined)
+			.flat()
+		: newBoard
+			.map((r, index) => {
+				const king = r.findIndex((c) => c.piece === "king" && c.color === "me")
+				if (king !== -1) return [index, king]
+			})
+			.filter((i) => i !== undefined)
+			.flat()
+
+	if (pieceIndex[0] === undefined || pieceIndex[1] === undefined) return [false, { piece: "", color: "" } as cell]
+
 
 	// ----------------- Jake of the Rook or Queen -----------------
 
-	for (let c = kingIndex[1] - 1; c >= 0; c--) {
-		if (newBoard[kingIndex[0]][c].color === "me") break
-		if (newBoard[kingIndex[0]][c].color === "her") {
+	for (let c = pieceIndex[1] - 1; c >= 0; c--) {
+		if (newBoard[pieceIndex[0]][c].color === myColor) break
+		if (newBoard[pieceIndex[0]][c].color !== "") {
 			if (
-				newBoard[kingIndex[0]][c].piece === "rook" ||
-				newBoard[kingIndex[0]][c].piece === "queen"
+				newBoard[pieceIndex[0]][c].piece === "rook" ||
+				newBoard[pieceIndex[0]][c].piece === "queen"
 			) {
-				return true
+				return [true, newBoard[pieceIndex[0]][c]]
 			}
 			break
 		}
 	}
 
-	for (let c = kingIndex[1] + 1; c <= 7; c++) {
-		if (newBoard[kingIndex[0]][c].color === "me") break
-		if (newBoard[kingIndex[0]][c].color === "her") {
+	for (let c = pieceIndex[1] + 1; c <= 7; c++) {
+		if (newBoard[pieceIndex[0]][c].color === myColor) break
+		if (newBoard[pieceIndex[0]][c].color !== "") {
 			if (
-				newBoard[kingIndex[0]][c].piece === "rook" ||
-				newBoard[kingIndex[0]][c].piece === "queen"
+				newBoard[pieceIndex[0]][c].piece === "rook" ||
+				newBoard[pieceIndex[0]][c].piece === "queen"
 			) {
-				return true
+				return [true, newBoard[pieceIndex[0]][c]]
 			}
 			break
 		}
 	}
 
 
-	for (let c = kingIndex[0] - 1; c >= 0; c--) {
+	for (let c = pieceIndex[0] - 1; c >= 0; c--) {
 
-		if (newBoard[c][kingIndex[1]].color === "me") break
+		if (newBoard[c][pieceIndex[1]].color === myColor) break
 
-		if (newBoard[c][kingIndex[1]].color === "her") {
+		if (newBoard[c][pieceIndex[1]].color !== "") {
 			if (
-				newBoard[c][kingIndex[1]].piece === "rook" ||
-				newBoard[c][kingIndex[1]].piece === "queen"
+				newBoard[c][pieceIndex[1]].piece === "rook" ||
+				newBoard[c][pieceIndex[1]].piece === "queen"
 			) {
-				return true
+				return [true, newBoard[c][pieceIndex[1]]]
 			}
 			break
 		}
 	}
 
-	for (let c = kingIndex[0] + 1; c <= 0; c++) {
-		if (newBoard[c][kingIndex[1]].color === "me") break
-		if (newBoard[c][kingIndex[1]].color === "her") {
+	for (let c = pieceIndex[0] + 1; c <= 0; c++) {
+		if (newBoard[c][pieceIndex[1]].color === myColor) break
+		if (newBoard[c][pieceIndex[1]].color !== "") {
 			if (
-				newBoard[c][kingIndex[1]].piece === "rook" ||
-				newBoard[c][kingIndex[1]].piece === "queen"
+				newBoard[c][pieceIndex[1]].piece === "rook" ||
+				newBoard[c][pieceIndex[1]].piece === "queen"
 			) {
-				return true
+				return [true, newBoard[c][pieceIndex[1]]]
 			}
 			break
 		}
@@ -85,55 +100,55 @@ export function isInJake(
 
 	// ----------------- Jake of the Bishop or Queen -----------------
 
-	let col = kingIndex[1] + 1
-	for (let r = kingIndex[0] + 1; r <= 7 || col <= 7; r++, col++) {
+	let col = pieceIndex[1] + 1
+	for (let r = pieceIndex[0] + 1; r <= 7 || col <= 7; r++, col++) {
 		if (newBoard[r] === undefined || newBoard[r][col] === undefined) break
 		const cell = newBoard[r][col]
-		if (cell.color === "me") break
-		if (cell.color === "her") {
+		if (cell.color === myColor) break
+		if (cell.color !== "") {
 			if (cell.piece === "bishop" || cell.piece === "queen") {
-				return true
+				return [true, cell]
 			}
 			break
 		}
 	}
 
-	col = kingIndex[1] - 1
+	col = pieceIndex[1] - 1
 
-	for (let r = kingIndex[0] - 1; r < 7 || col < 7; r--, col--) {
+	for (let r = pieceIndex[0] - 1; r < 7 || col < 7; r--, col--) {
 		if (newBoard[r] === undefined || newBoard[r][col] === undefined) break
 		const cell = newBoard[r][col]
-		if (cell.color === "me") break
-		if (cell.color === "her") {
+		if (cell.color === myColor) break
+		if (cell.color !== "") {
 			if (cell.piece === "bishop" || cell.piece === "queen") {
-				return true
+				return [true, cell]
 			}
 			break
 		}
 	}
 
-	col = kingIndex[1] + 1
-	for (let r = kingIndex[0] - 1; r >= 7 || col <= 7; r--, col++) {
+	col = pieceIndex[1] + 1
+	for (let r = pieceIndex[0] - 1; r >= 7 || col <= 7; r--, col++) {
 		if (newBoard[r] === undefined || newBoard[r][col] === undefined) break
 		const cell = newBoard[r][col]
-		if (cell.color === "me") break
-		if (cell.color === "her") {
+		if (cell.color === myColor) break
+		if (cell.color !== "") {
 			if (cell.piece === "bishop" || cell.piece === "queen") {
-				return true
+				return [true, cell]
 			}
 			break
 		}
 	}
 
-	col = kingIndex[1] - 1
+	col = pieceIndex[1] - 1
 
-	for (let r = kingIndex[0] + 1; r <= 7 || col >= 7; r++, col--) {
+	for (let r = pieceIndex[0] + 1; r <= 7 || col >= 7; r++, col--) {
 		if (newBoard[r] === undefined || newBoard[r][col] === undefined) break
 		const cell = newBoard[r][col]
-		if (cell.color === "me") break
-		if (cell.color === "her") {
+		if (cell.color === myColor) break
+		if (cell.color !== "") {
 			if (cell.piece === "bishop" || cell.piece === "queen") {
-				return true
+				return [true, cell]
 			}
 			break
 		}
@@ -143,58 +158,153 @@ export function isInJake(
 
 	try {
 		if (
-			(newBoard[kingIndex[0] - 1][kingIndex[1] - 2].piece === "knight" && newBoard[kingIndex[0] - 1][kingIndex[1] - 2].color === "her") ||
-			(newBoard[kingIndex[0] - 1][kingIndex[1] + 2].piece === "knight" && newBoard[kingIndex[0] - 1][kingIndex[1] + 2].color === "her")
+			(newBoard[pieceIndex[0] - 1][pieceIndex[1] - 2].piece === "knight"
+				&& newBoard[pieceIndex[0] - 1][pieceIndex[1] - 2].color !== myColor
+				&& newBoard[pieceIndex[0] - 1][pieceIndex[1] - 2].color !== "")
 		)
-			return true
+			return [true, newBoard[pieceIndex[0] - 1][pieceIndex[1] - 2]]
 	} catch (error) { }
+
 	try {
 		if (
-			(newBoard[kingIndex[0] + 1][kingIndex[1] - 2].piece === "knight" && newBoard[kingIndex[0] + 1][kingIndex[1] - 2].color === "her") ||
-			(newBoard[kingIndex[0] + 1][kingIndex[1] + 2].piece === "knight" && newBoard[kingIndex[0] + 1][kingIndex[1] + 2].color === "her")
+			(newBoard[pieceIndex[0] - 1][pieceIndex[1] + 2].piece === "knight"
+				&& newBoard[pieceIndex[0] - 1][pieceIndex[1] + 2].color !== myColor
+				&& newBoard[pieceIndex[0] - 1][pieceIndex[1] + 2].color !== "")
 		)
-			return true
+			return [true, newBoard[pieceIndex[0] - 1][pieceIndex[1] + 2]]
 	} catch (error) { }
+
 	try {
 		if (
-			(newBoard[kingIndex[0] + 2][kingIndex[1] - 1].piece === "knight" && newBoard[kingIndex[0] + 2][kingIndex[1] - 1].color === "her") ||
-			(newBoard[kingIndex[0] + 2][kingIndex[1] + 1].piece === "knight" && newBoard[kingIndex[0] + 2][kingIndex[1] + 1].color === "her")
+
+			(newBoard[pieceIndex[0] + 1][pieceIndex[1] + 2].piece === "knight"
+				&& newBoard[pieceIndex[0] + 1][pieceIndex[1] + 2].color !== myColor
+				&& newBoard[pieceIndex[0] + 1][pieceIndex[1] + 2].color !== ""
+			)
 		)
-			return true
+			return [true, newBoard[pieceIndex[0] + 1][pieceIndex[1] + 2]]
 	} catch (error) { }
+
 	try {
 		if (
-			(newBoard[kingIndex[0] - 2][kingIndex[1] - 1].piece === "knight" && newBoard[kingIndex[0] - 2][kingIndex[1] - 1].color === "her") ||
-			(newBoard[kingIndex[0] - 2][kingIndex[1] + 1].piece === "knight" && newBoard[kingIndex[0] - 2][kingIndex[1] + 1].color === "her")
+			(newBoard[pieceIndex[0] + 1][pieceIndex[1] - 2].piece === "knight"
+				&& newBoard[pieceIndex[0] + 1][pieceIndex[1] - 2].color !== myColor
+				&& newBoard[pieceIndex[0] + 1][pieceIndex[1] - 2].color !== ""
+			)
 		)
-			return true
+			return [true, newBoard[pieceIndex[0] + 1][pieceIndex[1] - 2]]
+	} catch (error) { }
+
+	try {
+		if (
+			(newBoard[pieceIndex[0] + 2][pieceIndex[1] + 1].piece === "knight"
+				&& newBoard[pieceIndex[0] + 2][pieceIndex[1] + 1].color !== myColor
+				&& newBoard[pieceIndex[0] + 2][pieceIndex[1] + 1].color !== ""
+			)
+		)
+			return [true, newBoard[pieceIndex[0] + 2][pieceIndex[1] + 1]]
+	} catch (error) { }
+
+	try {
+		if (
+			(newBoard[pieceIndex[0] + 2][pieceIndex[1] - 1].piece === "knight"
+				&& newBoard[pieceIndex[0] + 2][pieceIndex[1] - 1].color !== myColor
+				&& newBoard[pieceIndex[0] + 2][pieceIndex[1] - 1].color !== ""
+			)
+		)
+			return [true, newBoard[pieceIndex[0] + 2][pieceIndex[1] - 1]]
+	} catch (error) { }
+
+	try {
+		if (
+			(newBoard[pieceIndex[0] - 2][pieceIndex[1] + 1].piece === "knight"
+				&& newBoard[pieceIndex[0] - 2][pieceIndex[1] + 1].color !== myColor
+				&& newBoard[pieceIndex[0] - 2][pieceIndex[1] + 1].color !== ""
+			)
+		)
+			return [true, newBoard[pieceIndex[0] - 2][pieceIndex[1] + 1]]
+	} catch (error) { }
+
+	try {
+		if (
+			(newBoard[pieceIndex[0] - 2][pieceIndex[1] - 1].piece === "knight"
+				&& newBoard[pieceIndex[0] - 2][pieceIndex[1] - 1].color !== myColor
+				&& newBoard[pieceIndex[0] - 2][pieceIndex[1] - 1].color !== ""
+			)
+		)
+			return [true, newBoard[pieceIndex[0] - 2][pieceIndex[1] - 1]]
 	} catch (error) { }
 
 	// ----------------- Jake of the Pawn -----------------
 
 	try {
-		if ((newBoard[kingIndex[0] - 1][kingIndex[1] - 1].piece === "pawn" &&
-			newBoard[kingIndex[0] - 1][kingIndex[1] - 1].color === "her") ||
-			(newBoard[kingIndex[0] - 1][kingIndex[1] + 1].piece === "pawn" &&
-				newBoard[kingIndex[0] - 1][kingIndex[1] + 1].color === "her")
+		if ((newBoard[pieceIndex[0] - 1][pieceIndex[1] + 1].piece === "pawn"
+			&& newBoard[pieceIndex[0] - 1][pieceIndex[1] + 1].color !== myColor
+			&& newBoard[pieceIndex[0] - 1][pieceIndex[1] + 1].color !== ""
+		)
 		) {
-			return true
+			return [true, newBoard[pieceIndex[0] - 1][pieceIndex[1] + 1]]
+		}
+	} catch (error) { }
+
+	try {
+		if ((newBoard[pieceIndex[0] - 1][pieceIndex[1] - 1].piece === "pawn"
+			&& newBoard[pieceIndex[0] - 1][pieceIndex[1] - 1].color !== myColor
+			&& newBoard[pieceIndex[0] - 1][pieceIndex[1] - 1].color !== ""
+		)
+		) {
+			return [true, newBoard[pieceIndex[0] - 1][pieceIndex[1] - 1]]
 		}
 	} catch (error) { }
 
 	// ----------------- Jake of the King ----------------
 
 	try {
-		if (newBoard[kingIndex[0]][kingIndex[1] - 1].piece === "king" ||
-			newBoard[kingIndex[0]][kingIndex[1] + 1].piece === "king" ||
-			newBoard[kingIndex[0] - 1][kingIndex[1] - 1].piece === "king" ||
-			newBoard[kingIndex[0] - 1][kingIndex[1]].piece === "king" ||
-			newBoard[kingIndex[0] - 1][kingIndex[1] + 1].piece === "king" ||
-			newBoard[kingIndex[0] + 1][kingIndex[1] - 1].piece === "king" ||
-			newBoard[kingIndex[0] + 1][kingIndex[1]].piece === "king" ||
-			newBoard[kingIndex[0] + 1][kingIndex[1] + 1].piece === "king"
-		) return true
+		if (newBoard[pieceIndex[0]][pieceIndex[1] - 1].piece === "king"
+		) return [true, newBoard[pieceIndex[0]][pieceIndex[1] - 1]]
 	} catch (error) { }
 
-	return false
+	try {
+		if (
+			newBoard[pieceIndex[0]][pieceIndex[1] + 1].piece === "king"
+		) return [true, newBoard[pieceIndex[0]][pieceIndex[1] + 1]]
+	} catch (error) { }
+
+	try {
+		if (
+			newBoard[pieceIndex[0] - 1][pieceIndex[1] - 1].piece === "king"
+		) return [true, newBoard[pieceIndex[0] - 1][pieceIndex[1] - 1]]
+	} catch (error) { }
+
+	try {
+		if (
+			newBoard[pieceIndex[0] - 1][pieceIndex[1]].piece === "king"
+		) return [true, newBoard[pieceIndex[0] - 1][pieceIndex[1]]]
+	} catch (error) { }
+
+	try {
+		if (
+			newBoard[pieceIndex[0] - 1][pieceIndex[1] + 1].piece === "king"
+		) return [true, newBoard[pieceIndex[0] - 1][pieceIndex[1] + 1]]
+	} catch (error) { }
+
+	try {
+		if (
+			newBoard[pieceIndex[0] + 1][pieceIndex[1] - 1].piece === "king"
+		) return [true, newBoard[pieceIndex[0] + 1][pieceIndex[1] - 1]]
+	} catch (error) { }
+
+	try {
+		if (
+			newBoard[pieceIndex[0] + 1][pieceIndex[1]].piece === "king"
+		) return [true, newBoard[pieceIndex[0] + 1][pieceIndex[1]]]
+	} catch (error) { }
+
+	try {
+		if (
+			newBoard[pieceIndex[0] + 1][pieceIndex[1] + 1].piece === "king"
+		) return [true, newBoard[pieceIndex[0] + 1][pieceIndex[1] + 1]]
+	} catch (error) { }
+
+	return [false, { piece: "", color: "" } as cell]
 }
