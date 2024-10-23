@@ -82,10 +82,10 @@ export function isMate(
 
 	const [isJake, pieceCell] = isInJake(board, undefined, undefined, cell)
 
-	if (!isJake) {
+	if (isJake) {
 		const herPieceIndex = board
 			.map((r, index) => {
-				const piece = r.findIndex((c) => c === cell)
+				const piece = r.findIndex((c) => c.color === cell.color && c.piece === cell.piece)
 				if (piece !== -1) return [index, piece]
 			})
 			.filter((i) => i !== undefined)
@@ -93,7 +93,7 @@ export function isMate(
 
 		const mePieceIndex = board
 			.map((r, index) => {
-				const piece = r.findIndex((c) => c === pieceCell)
+				const piece = r.findIndex((c) => c.color === pieceCell.color && c.piece === pieceCell.piece)
 				if (piece !== -1) return [index, piece]
 			})
 			.filter((i) => i !== undefined)
@@ -101,7 +101,6 @@ export function isMate(
 
 		if (herPieceIndex[0] === undefined || herPieceIndex[1] === undefined) return false
 		if (mePieceIndex[0] === undefined || mePieceIndex[1] === undefined) return false
-
 		if (calcMove(pieceCell.piece, [herPieceIndex[0], herPieceIndex[1]], [mePieceIndex[0], mePieceIndex[1]], board, 1)) return false
 	}
 

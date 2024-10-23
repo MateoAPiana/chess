@@ -7,7 +7,7 @@ export function calcMove(
 	from: [number, number],
 	board: Board,
 	isJake: number,
-) {
+): boolean {
 	const newBoard: Board = structuredClone(board)
 	try {
 		newBoard[to[0]][to[1]] = board[from[0]][from[1]]
@@ -46,11 +46,11 @@ export function calcMove(
 					) return true
 				}
 			} catch (error) { }
-			return
+			return false
 		case "pawn":
 			if (from[0] === 6 && to[0] === 4 && from[1] === to[1]) return true
 			if (from[0] - 1 === to[0] && (from[1] === to[1] || from[1] - 1 === to[1] || from[1] + 1 === to[1])) return true
-			return
+			return false
 		case "knight":
 			if (
 				from[0] - 1 === to[0] &&
@@ -72,7 +72,7 @@ export function calcMove(
 				(from[1] - 1 === to[1] || from[1] + 1 === to[1])
 			)
 				return true
-			return
+			return false
 		case "bishop":
 			{
 				if (from[0] < to[0]) {
@@ -110,7 +110,7 @@ export function calcMove(
 				)
 					return true
 			}
-			return
+			return false
 		case "rook": {
 			if (from[0] === to[0]) {
 				if (from[1] > to[1]) {
@@ -134,7 +134,7 @@ export function calcMove(
 				}
 			}
 			if (from[0] === to[0] || from[1] === to[1]) return true
-			return
+			return false
 		}
 		case "queen":
 			if (from[0] === to[0]) {
@@ -194,7 +194,7 @@ export function calcMove(
 			)
 				return true
 			if (from[0] === to[0] || from[1] === to[1]) return true
-			return
+			return false
 	}
 	return false
 }

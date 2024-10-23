@@ -6,15 +6,12 @@ export function isInJake(
 	to?: [number, number],
 	cell?: cell
 ): [boolean, cell] {
-
 	const newBoard: Board = structuredClone(board)
 
 	if (from !== undefined && to !== undefined) {
 		try {
-			if (board[to[0]][to[1]].piece === "") {
-				newBoard[to[0]][to[1]] = board[from[0]][from[1]]
-				newBoard[from[0]][from[1]] = { piece: "", color: "" }
-			}
+			newBoard[to[0]][to[1]] = board[from[0]][from[1]]
+			newBoard[from[0]][from[1]] = { piece: "", color: "" }
 		} catch (error) {
 			return [false, { piece: "", color: "" } as cell]
 		}
@@ -22,10 +19,11 @@ export function isInJake(
 
 	const myColor: PlayerColor = cell ? cell.color : "me"
 
+
 	const pieceIndex = cell
 		? newBoard
 			.map((r, index) => {
-				const piece = r.findIndex((c) => c === cell)
+				const piece = r.findIndex((c) => c.color === cell.color && c.piece === cell.piece)
 				if (piece !== -1) return [index, piece]
 			})
 			.filter((i) => i !== undefined)
@@ -39,7 +37,6 @@ export function isInJake(
 			.flat()
 
 	if (pieceIndex[0] === undefined || pieceIndex[1] === undefined) return [false, { piece: "", color: "" } as cell]
-
 
 	// ----------------- Jake of the Rook or Queen -----------------
 
