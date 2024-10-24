@@ -3,6 +3,7 @@ import { useGameStore } from "../store/game"
 import type { cell, color, Piece, PlayerColor } from "../../types.d"
 import { calcMove } from "../services/calcMove"
 import socket from "./game"
+import WinnerModal from "./modalWinner"
 
 export function Board() {
   const board = useGameStore(state => state.board)
@@ -88,9 +89,12 @@ export function Board() {
           )
         })
       }
-      <div>
-        <h1 style={{ backgroundColor: "#222", position: "absolute", top: "50%", left: "50%", display: winner !== "" || Jake === 2 ? "inline-block" : "none" }}>{winner || myColor}</h1>
-      </div>
+      <WinnerModal
+        isVisible={winner !== "" || Jake === 2}
+        onPlayAgain={() => { }}
+        onReturnToStart={() => { }}
+        winner={winner || myColor}
+      />
     </main>
   )
 }
