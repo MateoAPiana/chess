@@ -21,6 +21,7 @@ export function Game() {
   const setTurn = useGameStore(state => state.setTurn)
   const board = useGameStore(state => state.board)
   const setJake = useGameStore(state => state.setJake)
+  const myColor = useGameStore(state => state.color)
 
   socket.on(
     "getMove",
@@ -32,15 +33,18 @@ export function Game() {
       to: [number, number]
     }) => {
       const [isJake, cell] = isInJake(board, from, to)
+      getEnemyMoves({ from, to })
       if (isJake) {
-        if (isMate(board, cell)) setJake(2)
+        if (isMate(board, cell)) {
+          setJake(2)
+          socket.emit("end", myColor)
+        }
         else {
           setJake(1)
           setTurn("me")
         }
       }
       else setTurn("me")
-      getEnemyMoves({ from, to })
     },
   )
 
@@ -56,3 +60,5 @@ export function Game() {
     <Board />
   )
 }
+
+export default socket

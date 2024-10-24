@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { useGameStore } from "../store/game"
-import type { cell, Piece, PlayerColor } from "../../types"
+import type { cell, color, Piece, PlayerColor } from "../../types.d"
 import { calcMove } from "../services/calcMove"
+import socket from "./game"
 
 export function Board() {
   const board = useGameStore(state => state.board)
@@ -13,7 +14,10 @@ export function Board() {
   const Jake = useGameStore(state => state.Jake)
   const passTurn = useGameStore((state) => state.setTurn)
 
+  const [winner, setWinner] = useState<color | "">("")
+
   const handleClick = (indexRow: number, index: number, cell: cell) => {
+    if (winner !== "" || Jake === 2) return
     if (pieceToMove[2] === "her" && cell.piece === "") return setPieceToMove(["", "", ""])
     if (turn === "me" && (pieceToMove[2] === "me" || cell.color === "me" || cell.color === "her")) {
       if (cell.piece === "" || (cell.color === "her" && pieceToMove[2] === "me")) {
@@ -30,6 +34,18 @@ export function Board() {
       else setPieceToMove([`${indexRow}${index}`, cell.piece, cell.color])
     }
   }
+
+  useEffect(() => {
+    socket.on("winner", (winner: color) => {
+      console.log(winner);
+      setWinner(winner);
+    });
+
+    return () => {
+      socket.off("winner");
+    };
+  }, [])
+
 
   useEffect(() => {
     if (myColor === "black") {
@@ -72,6 +88,9 @@ export function Board() {
           )
         })
       }
+      <div>
+        <h1 style={{ backgroundColor: "#222", position: "absolute", top: "50%", left: "50%", display: winner !== "" || Jake === 2 ? "inline-block" : "none" }}>{winner || myColor}</h1>
+      </div>
     </main>
   )
 }
