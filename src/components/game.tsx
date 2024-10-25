@@ -4,6 +4,7 @@ import { useGameStore } from '../store/game'
 import { isInJake } from "../services/isInJake";
 import { isMate } from "../services/isMate";
 const socket = io("http://localhost:3000")
+window.socket = socket
 
 export function sendMoves({
   from,

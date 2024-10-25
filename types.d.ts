@@ -18,3 +18,9 @@ export type cell = {
 type row = [cell, cell, cell, cell, cell, cell, cell, cell]
 
 export type Board = [row, row, row, row, row, row, row, row]
+
+declare global {
+	interface Window {
+		socket: SocketIOClient.Socket
+	}
+}
