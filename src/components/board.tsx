@@ -93,7 +93,7 @@ export function Board() {
         isVisible={winner !== "" || Jake === 2}
         onPlayAgain={() => { }}
         onReturnToStart={() => { }}
-        winner={winner || myColor}
+        winner={winner || (myColor === "white" ? "black" : "white")}
       />
     </main>
   )
