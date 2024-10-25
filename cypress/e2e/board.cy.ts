@@ -1,11 +1,11 @@
 /// <reference types="cypress" />
 describe('Pruebas de dos jugadores en distintas pestañas', () => {
   it('Permite a dos jugadores unirse y realizar movimientos', () => {
-    cy.visit('http://localhost:5173')
+    cy.visit('http://localhost:5173/game')
     cy.window().then((win1) => {
       const firstWindow = win1
 
-      cy.visit('http://localhost:5173')
+      cy.visit('http://localhost:5173/game')
       cy.window().then((win2) => {
         const secondWindow = win2
 

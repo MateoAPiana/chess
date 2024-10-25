@@ -38,13 +38,13 @@ export function Board() {
 
   useEffect(() => {
     socket.on("winner", (winner: color) => {
-      console.log(winner);
-      setWinner(winner);
-    });
+      console.log(winner)
+      setWinner(winner)
+    })
 
     return () => {
-      socket.off("winner");
-    };
+      socket.off("winner")
+    }
   }, [])
 
 
