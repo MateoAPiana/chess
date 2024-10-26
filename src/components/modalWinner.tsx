@@ -4,10 +4,9 @@ import './modalWinner.css'
 interface WinnerModalProps {
   winner: string
   isVisible: boolean
-  onPlayAgain: () => void
 }
 
-export default function WinnerModal({ winner = '', isVisible = false, onPlayAgain }: WinnerModalProps) {
+export default function WinnerModal({ winner = '', isVisible = false }: WinnerModalProps) {
   const [isOpen, setIsOpen] = useState(isVisible)
 
   useEffect(() => {
