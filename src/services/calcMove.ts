@@ -110,31 +110,32 @@ export function calcMove(
 					return true
 			}
 			return false
-		case "rook": {
-			if (from[0] === to[0]) {
-				if (from[1] > to[1]) {
-					for (let i = from[1] - 1; i >= to[1]; i--) {
-						if (!(board[from[0]][i].color === "" || (i === to[1] && board[to[0]][i].color === "her"))) return false
+		case "rook":
+			{
+				if (from[0] === to[0]) {
+					if (from[1] > to[1]) {
+						for (let i = from[1] - 1; i >= to[1]; i--) {
+							if (!(board[from[0]][i].color === "" || (i === to[1] && board[to[0]][i].color === "her"))) return false
+						}
+					} else {
+						for (let i = from[1] + 1; i <= to[1]; i++) {
+							if (!(board[from[0]][i].color === "" || (i === to[1] && board[to[0]][i].color === "her"))) return false
+						}
 					}
 				} else {
-					for (let i = from[1] + 1; i <= to[1]; i++) {
-						if (!(board[from[0]][i].color === "" || (i === to[1] && board[to[0]][i].color === "her"))) return false
+					if (from[0] > to[0]) {
+						for (let i = from[0] - 1; i >= to[0]; i--) {
+							if (!(board[i][from[1]].color === "" || (i === to[0] && board[i][to[1]].color === "her"))) return false
+						}
+					} else {
+						for (let i = from[0] + 1; i <= to[0]; i++) {
+							if (!(board[i][from[1]].color === "" || (i === to[0] && board[i][to[1]].color === "her"))) return false
+						}
 					}
 				}
-			} else {
-				if (from[0] > to[0]) {
-					for (let i = from[0] - 1; i >= to[0]; i--) {
-						if (!(board[i][from[1]].color === "" || (i === to[0] && board[i][to[1]].color === "her"))) return false
-					}
-				} else {
-					for (let i = from[0] + 1; i <= to[0]; i++) {
-						if (!(board[i][from[1]].color === "" || (i === to[0] && board[i][to[1]].color === "her"))) return false
-					}
-				}
+				if (from[0] === to[0] || from[1] === to[1]) return true
+				return false
 			}
-			if (from[0] === to[0] || from[1] === to[1]) return true
-			return false
-		}
 		case "queen":
 			if (from[0] === to[0]) {
 				if (from[1] > to[1]) {

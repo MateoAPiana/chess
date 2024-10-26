@@ -19,7 +19,6 @@ export function isInJake(
 
 	const myColor: PlayerColor = cell ? cell.color : "me"
 
-
 	const pieceIndex = cell
 		? newBoard
 			.map((r, index) => {
