@@ -25,7 +25,7 @@ export function calcMove(
 		return false
 	}
 
-	if (isInJake(newBoard, from, to)[0]) return false
+	if (isInJake(board, from, to)[0]) return false
 
 	try {
 		if (board[to[0]][to[1]].color === "me") return false
