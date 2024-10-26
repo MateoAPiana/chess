@@ -5,10 +5,9 @@ interface WinnerModalProps {
   winner: string
   isVisible: boolean
   onPlayAgain: () => void
-  onReturnToStart: () => void
 }
 
-export default function WinnerModal({ winner = '', isVisible = false, onPlayAgain, onReturnToStart }: WinnerModalProps) {
+export default function WinnerModal({ winner = '', isVisible = false, onPlayAgain }: WinnerModalProps) {
   const [isOpen, setIsOpen] = useState(isVisible)
 
   useEffect(() => {
@@ -24,14 +23,12 @@ export default function WinnerModal({ winner = '', isVisible = false, onPlayAgai
           </h2>
         </header>
         <footer className="winner-modal__footer">
-          {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-          <button onClick={onPlayAgain} className="winner-modal__button winner-modal__button--primary">
-            Play Again
-          </button>
-          {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-          <button onClick={onReturnToStart} className="winner-modal__button winner-modal__button--secondary">
-            Return to Start
-          </button>
+          <a href="/game" className="winner-modal__button">
+            <p>Play again</p>
+          </a>
+          <a href="/" className="winner-modal__button">
+            <p>Return to Start</p>
+          </a>
         </footer>
       </div>
     </dialog>

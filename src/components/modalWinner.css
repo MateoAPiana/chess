@@ -28,9 +28,19 @@
 }
 
 .winner-modal__button {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	text-align: center;
 	border: none;
 	width: 100%;
 	background-color: #2563eb;
+}
+
+.winner-modal__button p {
+	color: #fff;
 }
 
 .winner-modal__button:hover {

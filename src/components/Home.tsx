@@ -1,5 +1,4 @@
 import './Home.css'
-import { Link } from 'react-router-dom'
 
 export default function HomePage() {
   return (
@@ -8,7 +7,7 @@ export default function HomePage() {
       <div className="chess-board">
         <img src="/boardPreview.png" alt="" />
       </div>
-      <Link className='link_to_game' to="/game">Play</Link>
+      <a className='link_to_game' href="/game">Play</a>
     </div>
   )
 }

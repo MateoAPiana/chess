@@ -92,7 +92,6 @@ export function Board() {
       <WinnerModal
         isVisible={winner !== "" || Jake === 2}
         onPlayAgain={() => { }}
-        onReturnToStart={() => { }}
         winner={winner || (myColor === "white" ? "black" : "white")}
       />
     </main>
