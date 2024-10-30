@@ -4,6 +4,7 @@ import type { cell, color, Piece, PlayerColor } from "../../types.d"
 import { calcMove } from "../services/calcMove"
 import socket from "./game"
 import WinnerModal from "./modalWinner"
+import TableModal from "./modalTable"
 
 export function Board() {
   const board = useGameStore(state => state.board)
@@ -15,10 +16,10 @@ export function Board() {
   const Jake = useGameStore(state => state.Jake)
   const passTurn = useGameStore((state) => state.setTurn)
 
-  const [winner, setWinner] = useState<color | "">("")
+  const [winner, setWinner] = useState<color | "" | "tables">("")
 
   const handleClick = (indexRow: number, index: number, cell: cell) => {
-    if (winner !== "" || Jake === 2) return
+    if (winner !== "" || Jake === 2 || Jake === 3) return
     if (pieceToMove[2] === "her" && cell.piece === "") return setPieceToMove(["", "", ""])
     if (turn === "me" && (pieceToMove[2] === "me" || cell.color === "me" || cell.color === "her")) {
       if (cell.piece === "" || (cell.color === "her" && pieceToMove[2] === "me")) {
@@ -38,7 +39,6 @@ export function Board() {
 
   useEffect(() => {
     socket.on("winner", (winner: color) => {
-      console.log(winner)
       setWinner(winner)
     })
 
@@ -90,9 +90,10 @@ export function Board() {
         })
       }
       <WinnerModal
-        isVisible={winner !== "" || Jake === 2}
+        isVisible={winner === "white" || winner === "black" || Jake === 2}
         winner={winner || (myColor === "white" ? "black" : "white")}
       />
+      <TableModal isVisible={winner === "tables" || Jake === 3} />
     </main>
   )
 }

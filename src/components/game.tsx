@@ -3,6 +3,7 @@ import { io } from "socket.io-client"
 import { useGameStore } from '../store/game'
 import { isInJake } from "../services/isInJake";
 import { isMate } from "../services/isMate";
+import { isTable } from "../services/isTable";
 const socket = io("http://localhost:3000")
 window.socket = socket
 
@@ -45,7 +46,13 @@ export function Game() {
           setTurn("me")
         }
       }
-      else setTurn("me")
+      else {
+        if (isTable({ board })) {
+          setJake(3)
+          socket.emit("end", "tables")
+        }
+        else setTurn("me")
+      }
     },
   )
 

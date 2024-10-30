@@ -26,7 +26,6 @@ export const useGameStore = create<State>()(
 			return {
 				Jake: 0,
 				setJake(newJake) {
-					console.log(newJake)
 					set({ Jake: newJake })
 				},
 				turn: "",
