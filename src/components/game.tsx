@@ -1,10 +1,10 @@
-import { Board } from "./board";
+import { Board } from "./board"
 import { io } from "socket.io-client"
 import { useGameStore } from '../store/game'
-import { isInJake } from "../services/isInJake";
-import { isMate } from "../services/isMate";
-import { isTable } from "../services/isTable";
-const socket = io("http://localhost:3000")
+import { isInJake } from "../services/isInJake"
+import { isMate } from "../services/isMate"
+import { isTable } from "../services/isTable"
+const socket = io(import.meta.env.VITE_API_URL)
 window.socket = socket
 
 export function sendMoves({
