@@ -36,15 +36,16 @@ export function calcMove(
 		case "king":
 			try {
 				if (board[to[0]][to[1]].piece === undefined) return false
-				if (from[0] === to[0]) {
-					if (from[1] - 1 === to[1] || from[1] + 1 === to[1]) return true
-				} else if (from[0] - 1 === to[0] || from[0] + 1 === to[0]) {
-					if (
-						from[1] - 1 === to[1] ||
-						from[1] + 1 === to[1] ||
-						from[1] === to[1]
-					) return true
-				}
+				if (movesToCastling !== 1 && movesToCastling !== 3 && to[0] === 1)
+					if (from[0] === to[0]) {
+						if (from[1] - 1 === to[1] || from[1] + 1 === to[1]) return true
+					} else if (from[0] - 1 === to[0] || from[0] + 1 === to[0]) {
+						if (
+							from[1] - 1 === to[1] ||
+							from[1] + 1 === to[1] ||
+							from[1] === to[1]
+						) return true
+					}
 			} catch (error) { }
 			return false
 		case "pawn":

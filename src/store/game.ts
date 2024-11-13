@@ -18,7 +18,6 @@ interface State {
 		to,
 	}: { from: [number, number]; to: [number, number] }) => void
 	board: Board
-	fixBoardToBlack: () => void
 	move: (from: [number, number], to: [number, number]) => void
 }
 
@@ -43,7 +42,13 @@ export const useGameStore = create<State>()(
 				},
 				color: "white",
 				changeColor(newColor) {
-					set({ color: newColor })
+					const newBoard = get().board
+					newBoard[0][3] = { piece: "king", color: "her" }
+					newBoard[0][4] = { piece: "queen", color: "her" }
+
+					newBoard[7][3] = { piece: "king", color: "me" }
+					newBoard[7][4] = { piece: "queen", color: "me" }
+					set({ color: newColor, board: newBoard })
 				},
 				board: initialBoard,
 				getEnemyMoves({ from, to }) {
@@ -54,16 +59,6 @@ export const useGameStore = create<State>()(
 						newBoard[from[0]][from[1]] = { piece: "", color: "" }
 					}
 					set({ board: newBoard })
-				},
-				fixBoardToBlack() {
-					const board = get().board
-					board[0][3] = { piece: "king", color: "her" }
-					board[0][4] = { piece: "queen", color: "her" }
-
-					board[7][3] = { piece: "king", color: "me" }
-					board[7][4] = { piece: "queen", color: "me" }
-
-					set({ board })
 				},
 				move: (from, to) => {
 					sendMoves({ from, to })

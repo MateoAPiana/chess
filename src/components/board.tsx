@@ -11,7 +11,6 @@ export function Board() {
   const [pieceToMove, setPieceToMove] = useState<[string, Piece, PlayerColor]>(["", "", ""])
   const movePiece = useGameStore((state) => state.move)
   const myColor = useGameStore((state) => state.color)
-  const fixBoardToBlack = useGameStore((state) => state.fixBoardToBlack)
   const turn = useGameStore((state) => state.turn)
   const Jake = useGameStore(state => state.Jake)
   const passTurn = useGameStore((state) => state.setTurn)
@@ -51,13 +50,6 @@ export function Board() {
       socket.off("winner")
     }
   }, [])
-
-
-  useEffect(() => {
-    if (myColor === "black") {
-      fixBoardToBlack()
-    }
-  }, [myColor, fixBoardToBlack])
 
   const getColor = (color: PlayerColor) => {
     if (color === "her") {
