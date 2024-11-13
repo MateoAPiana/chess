@@ -281,7 +281,7 @@ it('should by not mate', () => {
     piece: "queen",
     color: "her"
   }
-  expect(isMate(boardTest, cell)).toBeFalsy()
+  expect(isMate(boardTest, cell, 0)).toBeFalsy()
 })
 
 it('should by mate', () => {
@@ -563,7 +563,7 @@ it('should by mate', () => {
     piece: "queen",
     color: "her"
   }
-  expect(isMate(boardTest, cell)).toBeTruthy()
+  expect(isMate(boardTest, cell, 0)).toBeTruthy()
 })
 
 it('should by king to eat the queen', () => {
@@ -845,7 +845,7 @@ it('should by king to eat the queen', () => {
     piece: "queen",
     color: "her"
   }
-  expect(isMate(boardTest, cell)).toBeFalsy()
+  expect(isMate(boardTest, cell, 0)).toBeFalsy()
 })
 
 it('should take a piece to cover the Jake', () => {
@@ -1129,5 +1129,5 @@ it('should take a piece to cover the Jake', () => {
     color: "her"
   }
 
-  expect(isMate(boardTest, cell)).toBeFalsy()
+  expect(isMate(boardTest, cell, 0)).toBeFalsy()
 })

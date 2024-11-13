@@ -43,11 +43,14 @@ export const useGameStore = create<State>()(
 				color: "white",
 				changeColor(newColor) {
 					const newBoard = get().board
-					newBoard[0][3] = { piece: "king", color: "her" }
-					newBoard[0][4] = { piece: "queen", color: "her" }
+					if (newColor === "black") {
+						newBoard[0][3] = { piece: "king", color: "her" }
+						newBoard[0][4] = { piece: "queen", color: "her" }
 
-					newBoard[7][3] = { piece: "king", color: "me" }
-					newBoard[7][4] = { piece: "queen", color: "me" }
+						newBoard[7][3] = { piece: "king", color: "me" }
+						newBoard[7][4] = { piece: "queen", color: "me" }
+						console.log(newBoard)
+					}
 					set({ color: newColor, board: newBoard })
 				},
 				board: initialBoard,
