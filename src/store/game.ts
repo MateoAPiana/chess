@@ -28,7 +28,10 @@ export const useGameStore = create<State>()(
 			return {
 				moveToCastling: 0,
 				setMovesToCastling(newValue) {
-					set({ moveToCastling: newValue })
+					console.log({ newValue })
+					const moveToCastling = get().moveToCastling
+					if (moveToCastling === 3 || (moveToCastling === 1 && newValue === 2) || (moveToCastling === 2 && newValue === 1)) set({ moveToCastling: 3 })
+					else set({ moveToCastling: newValue })
 				},
 				Jake: 0,
 				setJake(newJake) {

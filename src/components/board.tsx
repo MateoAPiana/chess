@@ -16,6 +16,7 @@ export function Board() {
   const Jake = useGameStore(state => state.Jake)
   const passTurn = useGameStore((state) => state.setTurn)
   const movesToCastling = useGameStore(state => state.moveToCastling)
+  const setMovesToCastling = useGameStore(state => state.setMovesToCastling)
 
   const [winner, setWinner] = useState<color | "" | "tables">("")
 
@@ -29,6 +30,9 @@ export function Board() {
         const to: [number, number] = [indexRow, index]
         const isValidMove = calcMove(pieceToMove[1], to, from, board, Jake, movesToCastling)
         if (isValidMove) {
+          if (pieceToMove[1] === "king") setMovesToCastling(3)
+          if (pieceToMove[1] === "rook" && from[0] === 7 && from[1] === 0) setMovesToCastling(1)
+          if (pieceToMove[1] === "rook" && from[0] === 7 && from[1] === 7) setMovesToCastling(2)
           movePiece(from, to)
           passTurn("her")
           setPieceToMove(["", "", ""])
