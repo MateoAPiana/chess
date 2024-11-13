@@ -5,6 +5,7 @@ import { initialBoard } from "../../constants"
 import { sendMoves } from "../components/game"
 
 interface State {
+	moveToCastling: 0 | 1 | 2
 	Jake: number
 	turn: PlayerColor
 	setJake: (newJake: number) => void
@@ -24,6 +25,7 @@ export const useGameStore = create<State>()(
 	devtools(
 		(set, get) => {
 			return {
+				moveToCastling: 0,
 				Jake: 0,
 				setJake(newJake) {
 					set({ Jake: newJake })

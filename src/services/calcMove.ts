@@ -7,6 +7,7 @@ export function calcMove(
 	from: [number, number],
 	board: Board,
 	isJake: number,
+	movesToCastling: 0 | 1 | 2
 ): boolean {
 	const newBoard: Board = structuredClone(board)
 	try {
@@ -17,7 +18,7 @@ export function calcMove(
 	}
 
 	if (isJake !== 0) {
-		const isValid = calcMove(piece, to, from, board, 0)
+		const isValid = calcMove(piece, to, from, board, 0, movesToCastling)
 		if (isValid) {
 			const isInJakeAgain = isInJake(board, from, to)[0]
 			return !isInJakeAgain

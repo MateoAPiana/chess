@@ -4,7 +4,8 @@ import { isInJake } from "./isInJake"
 
 export function isMate(
 	board: Board,
-	cell: cell
+	cell: cell,
+	movesToCastling: 0 | 1 | 2
 ) {
 	const kingIndex = board
 		.map((r, index) => {
@@ -25,6 +26,7 @@ export function isMate(
 			[kingIndex[0], kingIndex[1]],
 			board,
 			1,
+			movesToCastling
 		) ||
 		calcMove(
 			"king",
@@ -32,6 +34,7 @@ export function isMate(
 			[kingIndex[0], kingIndex[1]],
 			board,
 			1,
+			movesToCastling
 		) ||
 		calcMove(
 			"king",
@@ -39,6 +42,7 @@ export function isMate(
 			[kingIndex[0], kingIndex[1]],
 			board,
 			1,
+			movesToCastling
 		) ||
 		calcMove(
 			"king",
@@ -46,6 +50,7 @@ export function isMate(
 			[kingIndex[0], kingIndex[1]],
 			board,
 			1,
+			movesToCastling
 		) ||
 		calcMove(
 			"king",
@@ -53,6 +58,7 @@ export function isMate(
 			[kingIndex[0], kingIndex[1]],
 			board,
 			1,
+			movesToCastling
 		) ||
 		calcMove(
 			"king",
@@ -60,6 +66,7 @@ export function isMate(
 			[kingIndex[0], kingIndex[1]],
 			board,
 			1,
+			movesToCastling
 		) ||
 		calcMove(
 			"king",
@@ -67,6 +74,7 @@ export function isMate(
 			[kingIndex[0], kingIndex[1]],
 			board,
 			1,
+			movesToCastling
 		) ||
 		calcMove(
 			"king",
@@ -74,6 +82,7 @@ export function isMate(
 			[kingIndex[0], kingIndex[1]],
 			board,
 			1,
+			movesToCastling
 		)
 	)
 		return false
@@ -101,7 +110,7 @@ export function isMate(
 	if (mePieceIndex[0] === undefined || mePieceIndex[1] === undefined) return false
 
 	if (isJake) {
-		if (calcMove(pieceCell.piece, [herPieceIndex[0], herPieceIndex[1]], [mePieceIndex[0], mePieceIndex[1]], board, 1)) return false
+		if (calcMove(pieceCell.piece, [herPieceIndex[0], herPieceIndex[1]], [mePieceIndex[0], mePieceIndex[1]], board, 1, movesToCastling)) return false
 	}
 
 	// ----------------- If one piece can to cover the Jake -----------------

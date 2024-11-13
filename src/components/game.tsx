@@ -24,6 +24,7 @@ export function Game() {
   const board = useGameStore(state => state.board)
   const setJake = useGameStore(state => state.setJake)
   const myColor = useGameStore(state => state.color)
+  const movesToCastling = useGameStore(state => state.moveToCastling)
 
   socket.on(
     "getMove",
@@ -37,7 +38,7 @@ export function Game() {
       const [isJake, cell] = isInJake(board, from, to)
       getEnemyMoves({ from, to })
       if (isJake) {
-        if (isMate(board, cell)) {
+        if (isMate(board, cell, movesToCastling)) {
           setJake(2)
           socket.emit("end", myColor)
         }
