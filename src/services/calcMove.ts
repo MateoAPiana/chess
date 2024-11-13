@@ -7,7 +7,7 @@ export function calcMove(
 	from: [number, number],
 	board: Board,
 	isJake: number,
-	movesToCastling: 0 | 1 | 2
+	movesToCastling: 0 | 1 | 2 | 3
 ): boolean {
 	const newBoard: Board = structuredClone(board)
 	try {

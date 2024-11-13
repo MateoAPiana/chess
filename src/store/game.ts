@@ -5,7 +5,8 @@ import { initialBoard } from "../../constants"
 import { sendMoves } from "../components/game"
 
 interface State {
-	moveToCastling: 0 | 1 | 2
+	moveToCastling: 0 | 1 | 2 | 3
+	setMovesToCastling: (newValue: 0 | 1 | 2 | 3) => void
 	Jake: number
 	turn: PlayerColor
 	setJake: (newJake: number) => void
@@ -26,6 +27,9 @@ export const useGameStore = create<State>()(
 		(set, get) => {
 			return {
 				moveToCastling: 0,
+				setMovesToCastling(newValue) {
+					set({ moveToCastling: newValue })
+				},
 				Jake: 0,
 				setJake(newJake) {
 					set({ Jake: newJake })
@@ -41,16 +45,7 @@ export const useGameStore = create<State>()(
 				board: initialBoard,
 				getEnemyMoves({ from, to }) {
 					const board = get().board
-					const newBoard: Board = [
-						board[0],
-						board[1],
-						board[2],
-						board[3],
-						board[4],
-						board[5],
-						board[6],
-						board[7],
-					]
+					const newBoard: Board = structuredClone(board)
 					if (board[from[0]][from[1]].piece !== "") {
 						newBoard[to[0]][to[1]] = board[from[0]][from[1]]
 						newBoard[from[0]][from[1]] = { piece: "", color: "" }
@@ -59,23 +54,13 @@ export const useGameStore = create<State>()(
 				},
 				fixBoardToBlack() {
 					const board = get().board
-					const newBoard: Board = [
-						board[0],
-						board[1],
-						board[2],
-						board[3],
-						board[4],
-						board[5],
-						board[6],
-						board[7],
-					]
-					newBoard[0][3] = { piece: "king", color: "her" }
-					newBoard[0][4] = { piece: "queen", color: "her" }
+					board[0][3] = { piece: "king", color: "her" }
+					board[0][4] = { piece: "queen", color: "her" }
 
-					newBoard[7][3] = { piece: "king", color: "me" }
-					newBoard[7][4] = { piece: "queen", color: "me" }
+					board[7][3] = { piece: "king", color: "me" }
+					board[7][4] = { piece: "queen", color: "me" }
 
-					set({ board: newBoard })
+					set({ board })
 				},
 				move: (from, to) => {
 					sendMoves({ from, to })

@@ -5,7 +5,7 @@ import { isInJake } from "./isInJake"
 export function isMate(
 	board: Board,
 	cell: cell,
-	movesToCastling: 0 | 1 | 2
+	movesToCastling: 0 | 1 | 2 | 3
 ) {
 	const kingIndex = board
 		.map((r, index) => {
