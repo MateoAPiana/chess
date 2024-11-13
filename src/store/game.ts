@@ -57,7 +57,17 @@ export const useGameStore = create<State>()(
 				getEnemyMoves({ from, to }) {
 					const board = get().board
 					const newBoard: Board = structuredClone(board)
-					if (board[from[0]][from[1]].piece !== "") {
+					if (newBoard[from[0]][from[1]].piece !== "") {
+						if (newBoard[from[0]][from[1]].piece === "king" && to[1] === from[1] - 2) {
+							newBoard[0][0] = { piece: "", color: "" }
+							if (from[1] === 4) newBoard[0][3] = { piece: "rook", color: "her" }
+							else newBoard[0][2] = { piece: "rook", color: "her" }
+						}
+						else if (newBoard[from[0]][from[1]].piece === "king" && to[1] === from[1] + 2) {
+							newBoard[0][7] = { piece: "", color: "" }
+							if (from[1] === 4) newBoard[0][5] = { piece: "rook", color: "her" }
+							else newBoard[0][4] = { piece: "rook", color: "her" }
+						}
 						newBoard[to[0]][to[1]] = board[from[0]][from[1]]
 						newBoard[from[0]][from[1]] = { piece: "", color: "" }
 					}
