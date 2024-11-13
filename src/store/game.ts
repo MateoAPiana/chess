@@ -66,6 +66,16 @@ export const useGameStore = create<State>()(
 				move: (from, to) => {
 					sendMoves({ from, to })
 					const board = get().board
+					if (board[from[0]][from[1]].piece === "king" && to[1] === from[1] - 2) {
+						board[7][0] = { piece: "", color: "" }
+						if (from[1] === 4) board[7][3] = { piece: "rook", color: "me" }
+						else board[7][2] = { piece: "rook", color: "me" }
+					}
+					else if (board[from[0]][from[1]].piece === "king" && to[1] === from[1] + 2) {
+						board[7][7] = { piece: "", color: "" }
+						if (from[1] === 4) board[7][5] = { piece: "rook", color: "me" }
+						else board[7][4] = { piece: "rook", color: "me" }
+					}
 					board[to[0]][to[1]] = board[from[0]][from[1]]
 					board[from[0]][from[1]] = { piece: "", color: "" }
 					set({ board })
