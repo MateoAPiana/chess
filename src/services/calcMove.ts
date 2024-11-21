@@ -37,11 +37,6 @@ export function calcMove(
 			try {
 				if (board[to[0]][to[1]].piece === undefined) return false
 				if (from[0] === to[0]) {
-					console.log({
-						from, to, movesToCastling, isValid:
-							board[to[0]][to[1] - 1].piece === "",
-						piece: board[to[0]][to[1] - 1]
-					})
 					if (
 						movesToCastling !== 1 &&
 						movesToCastling !== 3 &&

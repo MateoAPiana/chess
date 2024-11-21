@@ -24,7 +24,6 @@ export function Board() {
     if (winner !== "" || Jake === 2 || Jake === 3) return
     if (pieceToMove[2] === "her" && cell.piece === "") return setPieceToMove(["", "", ""])
     if (turn === "me" && (pieceToMove[2] === "me" || cell.color === "me" || cell.color === "her")) {
-      console.log({ cell })
       if (cell.piece === "" || (cell.color === "her" && pieceToMove[2] === "me")) {
         if (pieceToMove[0] === "") return
         const from: [number, number] = [Number(pieceToMove[0][0]), Number(pieceToMove[0][1])]

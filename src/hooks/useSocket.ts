@@ -8,11 +8,9 @@ export default function useSocket() {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!socket) {
-      console.log({ socket })
       const newSocket = io(import.meta.env.VITE_API_URL)
       setSocket(newSocket)
       window.socket = newSocket
-      console.log({ newSocket })
     }
   }, [])
   return { socket }

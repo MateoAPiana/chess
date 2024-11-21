@@ -39,7 +39,6 @@ export const useGameStore = create<State>()(
 				name: crypto.randomUUID().toLowerCase(),
 				moveToCastling: 0,
 				setMovesToCastling(newValue) {
-					console.log({ newValue })
 					const moveToCastling = get().moveToCastling
 					if (moveToCastling === 3 || (moveToCastling === 1 && newValue === 2) || (moveToCastling === 2 && newValue === 1)) set({ moveToCastling: 3 })
 					else set({ moveToCastling: newValue })
@@ -61,7 +60,6 @@ export const useGameStore = create<State>()(
 
 						newBoard[7][3] = { piece: "king", color: "me" }
 						newBoard[7][4] = { piece: "queen", color: "me" }
-						console.log(newBoard)
 					}
 					set({ color: newColor, board: newBoard })
 				},
