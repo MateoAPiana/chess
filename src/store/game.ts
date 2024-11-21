@@ -2,7 +2,7 @@ import { create } from "zustand"
 import { devtools } from "zustand/middleware"
 import type { Board, color, PlayerColor } from "../../types.d"
 import { initialBoard } from "../../constants"
-import { sendMoves } from "../components/game"
+import { sendMoves } from "../services/socket"
 
 interface State {
 	moveToCastling: 0 | 1 | 2 | 3

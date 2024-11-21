@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 import { useGameStore } from "../store/game"
 import type { cell, color, Piece, PlayerColor } from "../../types.d"
 import { calcMove } from "../services/calcMove"
-import socket from "./game"
 import WinnerModal from "./modalWinner"
 import TableModal from "./modalTable"
+import socket from "../services/socket"
 
 export function Board() {
   const board = useGameStore(state => state.board)

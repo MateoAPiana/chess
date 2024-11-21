@@ -1,23 +1,11 @@
 import { Board } from "./board"
-import { io } from "socket.io-client"
 import { useGameStore } from '../store/game'
 import { isInJake } from "../services/isInJake"
 import { isMate } from "../services/isMate"
 import { isTable } from "../services/isTable"
-const socket = io(import.meta.env.VITE_API_URL)
-window.socket = socket
+import socket from "../services/socket"
 
-export function sendMoves({
-  from,
-  to,
-}: {
-  from: [number, number]
-  to: [number, number]
-}) {
-  socket.emit("move", { fromEnemy: from, toEnemy: to })
-}
-
-export function Game() {
+export default function Game() {
   const getEnemyMoves = useGameStore(state => state.getEnemyMoves)
   const changeColor = useGameStore(state => state.changeColor)
   const setTurn = useGameStore(state => state.setTurn)
@@ -69,5 +57,3 @@ export function Game() {
     <Board />
   )
 }
-
-export default socket
