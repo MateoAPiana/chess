@@ -1,5 +1,4 @@
 import './App.css'
-import HomePage from './components/Home'
 import Game from './components/game'
 import { Routes, Route } from 'react-router-dom'
 
