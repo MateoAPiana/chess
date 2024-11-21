@@ -29,18 +29,24 @@ export default function Game() {
     }) => {
       const [isJake, cell] = isInJake(board, from, to)
       getEnemyMoves({ from, to })
+      const newBoard = board
+      newBoard[to[0]][to[1]] = board[from[0]][from[1]]
+      newBoard[from[0]][from[1]] = { piece: "", color: "" }
       if (isJake) {
-        if (isMate(board, cell, movesToCastling)) {
+        console.log("Jake", { board, cell, movesToCastling })
+        if (isMate(newBoard, cell, movesToCastling)) {
+          console.log("Jake mate")
           setJake(2)
           socket?.emit("end", myColor)
         }
         else {
+          console.log("Jake sin mate")
           setJake(1)
           setTurn("me")
         }
       }
       else {
-        if (isTable({ board })) {
+        if (isTable({ board: newBoard })) {
           setJake(3)
           socket?.emit("end", "tables")
         }
