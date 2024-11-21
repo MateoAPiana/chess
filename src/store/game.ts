@@ -2,9 +2,9 @@ import { create } from "zustand"
 import { devtools } from "zustand/middleware"
 import type { Board, color, PlayerColor } from "../../types.d"
 import { initialBoard } from "../../constants"
-import { sendMoves } from "../services/socket"
 
 interface State {
+	name: string
 	moveToCastling: 0 | 1 | 2 | 3
 	setMovesToCastling: (newValue: 0 | 1 | 2 | 3) => void
 	Jake: number
@@ -21,10 +21,22 @@ interface State {
 	move: (from: [number, number], to: [number, number]) => void
 }
 
+function sendMoves({
+	from,
+	to,
+}: {
+	from: [number, number]
+	to: [number, number]
+}) {
+	const socket = window.socket
+	socket?.emit("move", { fromEnemy: from, toEnemy: to })
+}
+
 export const useGameStore = create<State>()(
 	devtools(
 		(set, get) => {
 			return {
+				name: crypto.randomUUID().toLowerCase(),
 				moveToCastling: 0,
 				setMovesToCastling(newValue) {
 					console.log({ newValue })

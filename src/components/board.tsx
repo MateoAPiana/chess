@@ -4,7 +4,7 @@ import type { cell, color, Piece, PlayerColor } from "../../types.d"
 import { calcMove } from "../services/calcMove"
 import WinnerModal from "./modalWinner"
 import TableModal from "./modalTable"
-import socket from "../services/socket"
+import useSocket from "../hooks/useSocket"
 
 export function Board() {
   const board = useGameStore(state => state.board)
@@ -16,6 +16,7 @@ export function Board() {
   const passTurn = useGameStore((state) => state.setTurn)
   const movesToCastling = useGameStore(state => state.moveToCastling)
   const setMovesToCastling = useGameStore(state => state.setMovesToCastling)
+  const { socket } = useSocket()
 
   const [winner, setWinner] = useState<color | "" | "tables">("")
 
@@ -23,6 +24,7 @@ export function Board() {
     if (winner !== "" || Jake === 2 || Jake === 3) return
     if (pieceToMove[2] === "her" && cell.piece === "") return setPieceToMove(["", "", ""])
     if (turn === "me" && (pieceToMove[2] === "me" || cell.color === "me" || cell.color === "her")) {
+      console.log({ cell })
       if (cell.piece === "" || (cell.color === "her" && pieceToMove[2] === "me")) {
         if (pieceToMove[0] === "") return
         const from: [number, number] = [Number(pieceToMove[0][0]), Number(pieceToMove[0][1])]
@@ -42,14 +44,14 @@ export function Board() {
   }
 
   useEffect(() => {
-    socket.on("winner", (winner: color) => {
+    socket?.on("winner", (winner: color) => {
       setWinner(winner)
     })
 
     return () => {
-      socket.off("winner")
+      socket?.off("winner")
     }
-  }, [])
+  }, [socket])
 
   const getColor = (color: PlayerColor) => {
     if (color === "her") {

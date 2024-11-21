@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import './home.css'
 
 export default function HomePage() {
@@ -7,7 +8,7 @@ export default function HomePage() {
       <div className="chess-board">
         <img src="/boardPreview.png" alt="" />
       </div>
-      <a className='link_to_game' href="/game">Play</a>
+      <Link className='link_to_game' to="/game">Play</Link>
     </div>
   )
 }
