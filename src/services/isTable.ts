@@ -25,6 +25,7 @@ export function isTable({
       [kingIndex[0], kingIndex[1]],
       board,
       0,
+      0
     ) ||
     calcMove(
       "king",
@@ -32,6 +33,7 @@ export function isTable({
       [kingIndex[0], kingIndex[1]],
       board,
       0,
+      0
     ) ||
     calcMove(
       "king",
@@ -39,6 +41,7 @@ export function isTable({
       [kingIndex[0], kingIndex[1]],
       board,
       0,
+      0
     ) ||
     calcMove(
       "king",
@@ -46,6 +49,7 @@ export function isTable({
       [kingIndex[0], kingIndex[1]],
       board,
       0,
+      0
     ) ||
     calcMove(
       "king",
@@ -53,6 +57,7 @@ export function isTable({
       [kingIndex[0], kingIndex[1]],
       board,
       0,
+      0
     ) ||
     calcMove(
       "king",
@@ -60,6 +65,7 @@ export function isTable({
       [kingIndex[0], kingIndex[1]],
       board,
       0,
+      0
     ) ||
     calcMove(
       "king",
@@ -67,6 +73,7 @@ export function isTable({
       [kingIndex[0], kingIndex[1]],
       board,
       0,
+      0
     ) ||
     calcMove(
       "king",
@@ -74,6 +81,7 @@ export function isTable({
       [kingIndex[0], kingIndex[1]],
       board,
       0,
+      0
     )
   ) return false
 
