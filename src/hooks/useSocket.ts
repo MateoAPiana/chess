@@ -8,7 +8,6 @@ export default function useSocket() {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!socket) {
-      console.log(import.meta.env.VITE_API_URL)
       const newSocket = io(import.meta.env.VITE_API_URL)
       setSocket(newSocket)
       window.socket = newSocket
