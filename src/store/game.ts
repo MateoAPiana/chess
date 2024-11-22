@@ -4,6 +4,8 @@ import type { Board, color, PlayerColor } from "../../types.d"
 import { initialBoard } from "../../constants"
 
 interface State {
+	winner: color | "" | "tables"
+	setWinner: (color: color) => void
 	name: string
 	moveToCastling: 0 | 1 | 2 | 3
 	setMovesToCastling: (newValue: 0 | 1 | 2 | 3) => void
@@ -36,6 +38,10 @@ export const useGameStore = create<State>()(
 	devtools(
 		(set, get) => {
 			return {
+				winner: "",
+				setWinner(color) {
+					set({ winner: color })
+				},
 				name: crypto.randomUUID().toLowerCase(),
 				moveToCastling: 0,
 				setMovesToCastling(newValue) {

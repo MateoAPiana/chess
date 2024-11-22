@@ -4,6 +4,7 @@ import { isInJake } from "../services/isInJake"
 import { isMate } from "../services/isMate"
 import { isTable } from "../services/isTable"
 import useSocket from "../hooks/useSocket"
+import type { color } from "../../types"
 
 export default function Game() {
   const getEnemyMoves = useGameStore(state => state.getEnemyMoves)
@@ -13,6 +14,7 @@ export default function Game() {
   const setJake = useGameStore(state => state.setJake)
   const myColor = useGameStore(state => state.color)
   const movesToCastling = useGameStore(state => state.moveToCastling)
+  const setWinner = useGameStore(state => state.setWinner)
   const name = useGameStore(state => state.name)
   const { socket } = useSocket()
 
@@ -33,14 +35,11 @@ export default function Game() {
       newBoard[to[0]][to[1]] = board[from[0]][from[1]]
       newBoard[from[0]][from[1]] = { piece: "", color: "" }
       if (isJake) {
-        console.log("Jake", { board, cell, movesToCastling })
         if (isMate(newBoard, cell, movesToCastling)) {
-          console.log("Jake mate")
           setJake(2)
           socket?.emit("end", myColor)
         }
         else {
-          console.log("Jake sin mate")
           setJake(1)
           setTurn("me")
         }
@@ -62,6 +61,10 @@ export default function Game() {
       setTurn(color === "white" ? "me" : "her")
     },
   )
+
+  socket?.on("winner", (winner: color) => {
+    setWinner(winner === "white" ? "black" : "white")
+  })
 
   return (
     <Board />

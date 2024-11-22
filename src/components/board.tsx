@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useGameStore } from "../store/game"
-import type { cell, color, Piece, PlayerColor } from "../../types.d"
+import type { cell, Piece, PlayerColor } from "../../types.d"
 import { calcMove } from "../services/calcMove"
 import WinnerModal from "./modalWinner"
 import TableModal from "./modalTable"
-import useSocket from "../hooks/useSocket"
 
 export function Board() {
   const board = useGameStore(state => state.board)
@@ -15,10 +14,9 @@ export function Board() {
   const Jake = useGameStore(state => state.Jake)
   const passTurn = useGameStore((state) => state.setTurn)
   const movesToCastling = useGameStore(state => state.moveToCastling)
+  const winner = useGameStore(state => state.winner)
   const setMovesToCastling = useGameStore(state => state.setMovesToCastling)
-  const { socket } = useSocket()
 
-  const [winner, setWinner] = useState<color | "" | "tables">("")
 
   const handleClick = (indexRow: number, index: number, cell: cell) => {
     if (winner !== "" || Jake === 2 || Jake === 3) return
@@ -41,16 +39,6 @@ export function Board() {
       else setPieceToMove([`${indexRow}${index}`, cell.piece, cell.color])
     }
   }
-
-  useEffect(() => {
-    socket?.on("winner", (winner: color) => {
-      setWinner(winner)
-    })
-
-    return () => {
-      socket?.off("winner")
-    }
-  }, [socket])
 
   const getColor = (color: PlayerColor) => {
     if (color === "her") {
